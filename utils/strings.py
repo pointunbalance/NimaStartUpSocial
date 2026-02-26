@@ -1,0 +1,65 @@
+"""
+Centralized strings for NimaStartupSocial (Arabic and English).
+"""
+
+STRINGS = {
+    "app_name": "NimaStartupSocial",
+    "main_window_title": "NimaStartupSocial - اختصاراتي",
+    "shortcuts_manager_title": "إدارة الاختصارات",
+    "section_shortcuts": "الاختصارات",
+    "section_details": "تفاصيل الاختصار",
+    "label_name": "الاسم:",
+    "label_name_en": "الاسم بالإنجليزية:",
+    "label_url": "الرابط:",
+    "placeholder_search": "بحث سريع بالاسم أو الرابط...",
+    "placeholder_name": "مثال: جيت هب",
+    "placeholder_name_en": "Example: GitHub",
+    "placeholder_url": "https://example.com",
+    "btn_add": "إضافة",
+    "btn_delete": "حذف",
+    "btn_import": "استيراد",
+    "btn_export": "تصدير",
+    "btn_apply": "تطبيق التعديلات",
+    "btn_save_close": "حفظ وإغلاق",
+    "btn_cancel": "إلغاء",
+    "btn_open": "فتح",
+    "checkbox_autostart": "تشغيل تلقائي مع النظام",
+    "msg_warning": "تحذير",
+    "msg_error": "خطأ",
+    "msg_success": "نجاح",
+    "msg_invalid_index": "يرجى اختيار اختصار أولاً.",
+    "msg_name_required": "الاسم مطلوب.",
+    "msg_url_required": "الرابط مطلوب.",
+    "msg_invalid_url": "الرابط يجب أن يبدأ بـ http:// أو https://",
+    "msg_saved_success": "تم الحفظ بنجاح!",
+    "browser_default": "متصفح النظام الافتراضي",
+    "browser_chrome": "جوجل كروم",
+    "browser_firefox": "فايرفوكس",
+    "browser_edge": "مايكروسوفت إيدج",
+    "browser_brave": "بريف",
+    "browser_opera": "أوبرا",
+    "browser_safari": "سفاري",
+    "drag_drop_hint": "اسحب لإعادة ترتيب الاختصارات.",
+    "filter_drag_disabled": "يجب إلغاء البحث أولاً لإعادة ترتيب العناصر.",
+    "label_global_browser": ("المتصفح المفضل للفتح:", "Preferred browser to open:"),
+    "cat_all": ("الكل", "All"),
+    "cat_general": ("عام", "General"),
+    "cat_ai": ("ذكاء اصطناعي", "AI"),
+    "cat_social": ("تواصل", "Social"),
+    "cat_work": ("عمل", "Work"),
+    "label_category": ("التصنيف:", "Category:"),
+    "label_hotkey": ("مفتاح الاختصار:", "Hotkey:"),
+    "placeholder_hotkey": ("مثال: Ctrl+1", "e.g., Ctrl+1"),
+    "msg_export_success": ("تم تصدير البيانات بنجاح!", "Data exported successfully!"),
+    "msg_import_success": ("تم استيراد البيانات بنجاح! سيتم التحديث الآن.", "Data imported successfully! Refreshing..."),
+    "msg_import_error": ("فشل استيراد البيانات! تأكد من صحة الملف.", "Failed to import data! Check the file format."),
+    "dash_welcome": ("أهلاً بك،", "Welcome,"),
+    "dash_date_prefix": ("اليوم هو:", "Today is:"),
+    "cat_popular": ("الأكثر استخداماً", "Popular"),
+}
+
+def get_string(key: str, lang_idx: int = 0) -> str:
+    val = STRINGS.get(key, key)
+    if isinstance(val, tuple):
+        return val[lang_idx]
+    return val

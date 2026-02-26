@@ -1,0 +1,282 @@
+/* NimaStartupSocial - Modern Glassmorphism Premium Theme */
+/* Note: @import url() is NOT supported in Qt QSS - fonts must be loaded programmatically */
+
+QWidget {
+    font-family: 'Cairo', 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+}
+
+QMainWindow, QDialog {
+    background-color: transparent;
+}
+
+/* Central Container - The Glass Layer */
+QWidget#centralWidget {
+    background-color: rgba(255, 255, 255, 30);
+    border: 1px solid rgba(255, 255, 255, 80);
+    border-radius: 24px;
+}
+
+/* Panels within Dialogs */
+QFrame#listPanel, QFrame#editorPanel {
+    background-color: rgba(255, 255, 255, 20);
+    border: 1px solid rgba(255, 255, 255, 40);
+    border-radius: 18px;
+}
+
+/* Scroll Area */
+QScrollArea {
+    border: none;
+    background-color: transparent;
+}
+
+QScrollArea > QWidget > QWidget {
+    background-color: transparent;
+}
+
+QScrollArea #qt_scrollarea_viewport {
+    background: transparent;
+}
+
+QScrollBar:vertical {
+    border: none;
+    background: rgba(241, 245, 249, 30);
+    width: 8px;
+    margin: 4px;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:vertical {
+    background: rgba(148, 163, 184, 150);
+    min-height: 40px;
+    border-radius: 4px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: rgba(13, 148, 136, 180);
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+/* Buttons - Premium Elevated Look */
+QPushButton {
+    background-color: #0d9488;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+}
+
+QPushButton:hover {
+    background-color: #0f766e;
+    margin-top: -1px; /* Subtle lift */
+}
+
+QPushButton:pressed {
+    background-color: #115e59;
+    margin-top: 1px;
+}
+
+QPushButton#secondaryBtn {
+    background-color: rgba(255, 255, 255, 100);
+    color: #475569;
+    border: 1px solid rgba(203, 213, 225, 80);
+}
+
+QPushButton#secondaryBtn:hover {
+    background-color: rgba(255, 255, 255, 180);
+}
+
+QPushButton#dangerBtn {
+    background-color: rgba(239, 68, 68, 40);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 80);
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+QPushButton#dangerBtn:hover {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+/* Shortcut Cards - "Glass Tile" Style */
+QFrame#shortcutCard {
+    background-color: rgba(255, 255, 255, 25);
+    border: 1px solid rgba(255, 255, 255, 60);
+    border-radius: 20px;
+}
+
+QFrame#shortcutCard:hover {
+    background-color: rgba(255, 255, 255, 60);
+    border: 1px solid rgba(13, 148, 136, 150);
+}
+
+QLabel#shortcutTitle {
+    font-weight: 600;
+    font-size: 14px;
+    color: #334155;
+    background: transparent;
+}
+
+/* App Circle within Card */
+QPushButton#siteCircleOpen {
+    border-radius: 22px;
+    border: 2px solid rgba(255, 255, 255, 100);
+}
+
+/* Titles */
+QLabel#windowMainTitle {
+    font-weight: 700;
+    font-size: 20px;
+    color: #0f172a;
+    letter-spacing: -0.2px;
+}
+
+/* Inputs & Selection */
+QLineEdit, QListWidget {
+    background-color: rgba(255, 255, 255, 100);
+    border: 1px solid rgba(255, 255, 255, 150);
+    border-radius: 12px;
+    padding: 10px 14px;
+}
+
+QLineEdit:focus {
+    border: 1px solid rgba(13, 148, 136, 150);
+}
+
+QListWidget::item:selected {
+    background-color: rgba(13, 148, 136, 30);
+    color: #0d9488;
+}
+
+/* Checkbox - Modern Toggle Style */
+QCheckBox {
+    spacing: 8px;
+    color: #475569;
+    font-weight: 500;
+}
+
+QCheckBox::indicator {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(148, 163, 184, 150);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 80);
+}
+
+QCheckBox::indicator:checked {
+    background: #0d9488;
+    border-color: #0d9488;
+}
+
+QCheckBox::indicator:hover {
+    border-color: #0d9488;
+}
+
+/* Tooltips */
+QToolTip {
+    background-color: rgba(15, 23, 42, 220);
+    color: #f8fafc;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+/* Category Tabs - Premium Glass Look */
+QTabBar {
+    background: transparent;
+    border: none;
+}
+
+QTabBar::tab {
+    background: rgba(255, 255, 255, 40);
+    border: 1px solid rgba(255, 255, 255, 60);
+    border-radius: 12px;
+    padding: 10px 20px;
+    margin: 4px;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+QTabBar::tab:hover {
+    background: rgba(255, 255, 255, 90);
+    border-color: rgba(13, 148, 136, 150);
+}
+
+QTabBar::tab:selected {
+    background: #0d9488;
+    color: #ffffff;
+    border-color: #0d9488;
+}
+
+/* Combo Box - Glass Style */
+QComboBox {
+    background-color: rgba(255, 255, 255, 60);
+    border: 1px solid rgba(255, 255, 255, 100);
+    border-radius: 12px;
+    padding: 8px 12px;
+    min-height: 20px;
+    color: #1e293b;
+}
+
+QComboBox:hover {
+    background-color: rgba(255, 255, 255, 120);
+    border: 1px solid rgba(13, 148, 136, 120);
+}
+
+/* Dashboard Widget */
+QFrame#dashboardWidget {
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    margin: 10px 25px;
+}
+
+QLabel#dashWelcome {
+    color: #1e293b;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+QLabel#dashDate {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+QLabel#dashClock {
+    color: #10b981;
+    font-size: 36px;
+    font-weight: 900;
+    font-family: 'Consolas', monospace;
+}
+
+QComboBox::drop-down {
+    border: none;
+    width: 30px;
+}
+
+QComboBox::down-arrow {
+    image: none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #475569;
+    margin-right: 12px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: rgba(255, 255, 255, 240);
+    border: 1px solid rgba(255, 255, 255, 120);
+    border-radius: 12px;
+    selection-background-color: rgba(13, 148, 136, 50);
+    selection-color: #0d9488;
+    outline: none;
+    padding: 8px;
+}

@@ -1,0 +1,206 @@
+[2026-02-26 06:55:04] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 06:55:04] INFO [NimaStartUpSocial.main:8] Application starting...
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:218] Grid refreshed. Total tiles: 16
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 0 (جيمني): Visible=False, Pos=PyQt6.QtCore.QPoint(515, 16)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 1 (شات جي بي تي): Visible=False, Pos=PyQt6.QtCore.QPoint(390, 16)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 2 (كلود): Visible=False, Pos=PyQt6.QtCore.QPoint(265, 16)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 3 (بيربليكسييتي): Visible=False, Pos=PyQt6.QtCore.QPoint(140, 16)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 4 (كوبيلوت): Visible=False, Pos=PyQt6.QtCore.QPoint(16, 16)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 5 (ديب سيك): Visible=False, Pos=PyQt6.QtCore.QPoint(515, 128)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 6 (جروك): Visible=False, Pos=PyQt6.QtCore.QPoint(390, 128)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 7 (واتساب): Visible=False, Pos=PyQt6.QtCore.QPoint(265, 128)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 8 (تليجرام): Visible=False, Pos=PyQt6.QtCore.QPoint(140, 128)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 9 (ديسكورد): Visible=False, Pos=PyQt6.QtCore.QPoint(16, 128)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 10 (جيميل): Visible=False, Pos=PyQt6.QtCore.QPoint(515, 240)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 11 (فيسبوك): Visible=False, Pos=PyQt6.QtCore.QPoint(390, 240)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 12 (يوتيوب): Visible=False, Pos=PyQt6.QtCore.QPoint(265, 240)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 13 (لينكد إن): Visible=False, Pos=PyQt6.QtCore.QPoint(140, 240)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 14 (كانفا): Visible=False, Pos=PyQt6.QtCore.QPoint(16, 240)
+[2026-02-26 06:55:04] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 15 (جيت هب): Visible=False, Pos=PyQt6.QtCore.QPoint(515, 352)
+[2026-02-26 06:55:11] DEBUG [NimaStartUpSocial._grid_drag_enter:116] Drag enter: https://www.behance.net/search/projects/pos?tracking_source=typeahead_search_direct
+[2026-02-26 06:57:38] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 06:57:38] INFO [NimaStartUpSocial.main:8] Application starting...
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:217] Grid refreshed. Total tiles: 16
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 0 (جيمني): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 1 (شات جي بي تي): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 2 (كلود): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 3 (بيربليكسييتي): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 4 (كوبيلوت): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 5 (ديب سيك): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 6 (جروك): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 7 (واتساب): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 8 (تليجرام): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 9 (ديسكورد): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 10 (جيميل): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 11 (فيسبوك): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 12 (يوتيوب): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 13 (لينكد إن): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 14 (كانفا): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:39] DEBUG [NimaStartUpSocial._refresh_grid:221] Tile 15 (جيت هب): Visible=False, Pos=PyQt6.QtCore.QPoint(-1599, 456)
+[2026-02-26 06:57:51] DEBUG [NimaStartUpSocial._grid_drag_enter:116] Drag enter: https://www.behance.net/search/projects/pos?tracking_source=typeahead_search_direct
+[2026-02-26 06:57:56] DEBUG [NimaStartUpSocial._grid_drag_enter:116] Drag enter: https://www.behance.net/search/projects/pos?tracking_source=typeahead_search_direct
+[2026-02-26 06:57:58] DEBUG [NimaStartUpSocial._grid_drag_enter:116] Drag enter: https://www.behance.net/search/projects/pos?tracking_source=typeahead_search_direct
+[2026-02-26 06:58:02] DEBUG [NimaStartUpSocial._grid_drag_enter:116] Drag enter: https://www.behance.net/search/projects/pos?tracking_source=typeahead_search_direct
+[2026-02-26 06:58:35] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 06:58:35] INFO [NimaStartUpSocial.main:8] Application starting...
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:218] Grid refreshed. Total tiles: 16
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 0 (جيمني): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 1 (شات جي بي تي): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 2 (كلود): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 3 (بيربليكسييتي): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 4 (كوبيلوت): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 5 (ديب سيك): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 6 (جروك): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 7 (واتساب): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 8 (تليجرام): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 9 (ديسكورد): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 10 (جيميل): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 11 (فيسبوك): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 12 (يوتيوب): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 13 (لينكد إن): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 14 (كانفا): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:36] DEBUG [NimaStartUpSocial._refresh_grid:222] Tile 15 (جيت هب): Visible=False, Pos=PyQt6.QtCore.QPoint(960, 456)
+[2026-02-26 06:58:41] DEBUG [NimaStartUpSocial._grid_drag_enter:117] Drag enter: https://www.facebook.com/reel/1513945240246829
+[2026-02-26 06:58:46] DEBUG [NimaStartUpSocial._grid_drag_enter:117] Drag enter: https://www.facebook.com/reel/1513945240246829
+[2026-02-26 07:01:15] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 07:01:15] INFO [NimaStartUpSocial.main:8] Application starting...
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:228] Audit: Total tiles in layout: 16
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 0 (جيمني): Visible=True, Pos=PyQt6.QtCore.QPoint(744, 24), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 1 (شات جي بي تي): Visible=True, Pos=PyQt6.QtCore.QPoint(564, 24), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 2 (كلود): Visible=True, Pos=PyQt6.QtCore.QPoint(384, 24), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 3 (بيربليكسييتي): Visible=True, Pos=PyQt6.QtCore.QPoint(204, 24), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 4 (كوبيلوت): Visible=True, Pos=PyQt6.QtCore.QPoint(24, 24), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 5 (ديب سيك): Visible=True, Pos=PyQt6.QtCore.QPoint(744, 204), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 6 (جروك): Visible=True, Pos=PyQt6.QtCore.QPoint(564, 204), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 7 (واتساب): Visible=True, Pos=PyQt6.QtCore.QPoint(384, 204), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 8 (تليجرام): Visible=True, Pos=PyQt6.QtCore.QPoint(204, 204), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 9 (ديسكورد): Visible=True, Pos=PyQt6.QtCore.QPoint(24, 204), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 10 (جيميل): Visible=True, Pos=PyQt6.QtCore.QPoint(744, 384), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 11 (فيسبوك): Visible=True, Pos=PyQt6.QtCore.QPoint(564, 384), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 12 (يوتيوب): Visible=True, Pos=PyQt6.QtCore.QPoint(384, 384), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 13 (لينكد إن): Visible=True, Pos=PyQt6.QtCore.QPoint(204, 384), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 14 (كانفا): Visible=True, Pos=PyQt6.QtCore.QPoint(24, 384), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:16] DEBUG [NimaStartUpSocial._audit_visibility:232] Tile 15 (جيت هب): Visible=True, Pos=PyQt6.QtCore.QPoint(744, 564), Size=PyQt6.QtCore.QSize(160, 160)
+[2026-02-26 07:01:19] DEBUG [NimaStartUpSocial._grid_drag_enter:118] Drag enter: https://www.facebook.com/reel/903544832535520
+[2026-02-26 07:01:20] DEBUG [NimaStartUpSocial._grid_drag_enter:118] Drag enter: https://www.facebook.com/reel/903544832535520
+[2026-02-26 07:01:24] DEBUG [NimaStartUpSocial._grid_drag_enter:118] Drag enter: https://www.facebook.com/reel/903544832535520
+[2026-02-26 07:02:22] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 07:02:22] INFO [NimaStartUpSocial.main:8] Application starting...
+[2026-02-26 07:02:23] DEBUG [NimaStartUpSocial._refresh_grid:215] Grid refreshed with 16 items
+[2026-02-26 07:03:13] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 07:03:13] INFO [NimaStartUpSocial.main:8] Application starting...
+[2026-02-26 07:03:14] DEBUG [NimaStartUpSocial._refresh_grid:215] Grid refreshed with 16 items
+[2026-02-26 07:07:58] DEBUG [NimaStartUpSocial._grid_drag_enter:118] Drag enter: https://www.facebook.com/reel/1449935253589178
+[2026-02-26 07:10:23] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 07:10:23] INFO [NimaStartUpSocial.main:8] Application starting...
+[2026-02-26 07:10:24] DEBUG [NimaStartUpSocial._refresh_grid:226] Grid refreshed with 16 items
+[2026-02-26 07:10:28] DEBUG [NimaStartUpSocial._grid_drag_enter:119] Drag enter: https://www.facebook.com/reel/2932343203626611
+[2026-02-26 07:10:29] INFO [NimaStartUpSocial._grid_drop:130] Drop received: url=https://www.facebook.com/reel/2932343203626611, pos=PyQt6.QtCore.QPoint(629, 644)
+[2026-02-26 07:10:29] WARNING [NimaStartUpSocial._grid_drop:140] Drop rejected: URL 'https://www.facebook.com/reel/2932343203626611' not found in shortcuts list
+[2026-02-26 07:10:33] DEBUG [NimaStartUpSocial._grid_drag_enter:119] Drag enter: https://www.youtube.com
+[2026-02-26 07:10:34] INFO [NimaStartUpSocial._grid_drop:130] Drop received: url=https://www.youtube.com, pos=PyQt6.QtCore.QPoint(691, 690)
+[2026-02-26 07:10:34] DEBUG [NimaStartUpSocial._grid_drop:165] Fallback target: col=1, row=3, idx=15
+[2026-02-26 07:10:34] INFO [NimaStartUpSocial._grid_drop:167] Reorder: src=12 -> target=15
+[2026-02-26 07:10:34] INFO [NimaStartUpSocial._grid_drop:180] Drop accepted and refresh scheduled
+[2026-02-26 07:10:34] DEBUG [NimaStartUpSocial._refresh_grid:226] Grid refreshed with 16 items
+[2026-02-26 07:10:34] DEBUG [NimaStartUpSocial._grid_drag_enter:119] Drag enter: https://www.youtube.com
+[2026-02-26 07:10:35] INFO [NimaStartUpSocial._grid_drop:130] Drop received: url=https://www.youtube.com, pos=PyQt6.QtCore.QPoint(671, 511)
+[2026-02-26 07:10:35] INFO [NimaStartUpSocial._grid_drop:167] Reorder: src=15 -> target=11
+[2026-02-26 07:10:35] INFO [NimaStartUpSocial._grid_drop:180] Drop accepted and refresh scheduled
+[2026-02-26 07:10:36] DEBUG [NimaStartUpSocial._refresh_grid:226] Grid refreshed with 16 items
+[2026-02-26 07:10:37] DEBUG [NimaStartUpSocial._grid_drag_enter:119] Drag enter: https://github.com
+[2026-02-26 07:10:37] INFO [NimaStartUpSocial._grid_drop:130] Drop received: url=https://github.com, pos=PyQt6.QtCore.QPoint(677, 474)
+[2026-02-26 07:10:37] INFO [NimaStartUpSocial._grid_drop:167] Reorder: src=15 -> target=11
+[2026-02-26 07:10:37] INFO [NimaStartUpSocial._grid_drop:180] Drop accepted and refresh scheduled
+[2026-02-26 07:10:38] DEBUG [NimaStartUpSocial._refresh_grid:226] Grid refreshed with 16 items
+[2026-02-26 07:10:39] DEBUG [NimaStartUpSocial._grid_drag_enter:119] Drag enter: https://www.canva.com
+[2026-02-26 07:10:39] INFO [NimaStartUpSocial._grid_drop:130] Drop received: url=https://www.canva.com, pos=PyQt6.QtCore.QPoint(830, 446)
+[2026-02-26 07:10:39] INFO [NimaStartUpSocial._grid_drop:167] Reorder: src=15 -> target=10
+[2026-02-26 07:10:39] INFO [NimaStartUpSocial._grid_drop:180] Drop accepted and refresh scheduled
+[2026-02-26 07:10:40] DEBUG [NimaStartUpSocial._refresh_grid:226] Grid refreshed with 16 items
+[2026-02-26 07:10:41] DEBUG [NimaStartUpSocial._grid_drag_enter:119] Drag enter: https://www.canva.com
+[2026-02-26 07:10:41] INFO [NimaStartUpSocial._grid_drop:130] Drop received: url=https://www.canva.com, pos=PyQt6.QtCore.QPoint(846, 684)
+[2026-02-26 07:10:41] INFO [NimaStartUpSocial._grid_drop:167] Reorder: src=10 -> target=15
+[2026-02-26 07:10:41] INFO [NimaStartUpSocial._grid_drop:180] Drop accepted and refresh scheduled
+[2026-02-26 07:10:41] DEBUG [NimaStartUpSocial._refresh_grid:226] Grid refreshed with 16 items
+[2026-02-26 07:10:43] DEBUG [NimaStartUpSocial._grid_drag_enter:119] Drag enter: https://mail.google.com
+[2026-02-26 07:10:43] INFO [NimaStartUpSocial._grid_drop:130] Drop received: url=https://mail.google.com, pos=PyQt6.QtCore.QPoint(819, 686)
+[2026-02-26 07:10:43] INFO [NimaStartUpSocial._grid_drop:167] Reorder: src=10 -> target=15
+[2026-02-26 07:10:43] INFO [NimaStartUpSocial._grid_drop:180] Drop accepted and refresh scheduled
+[2026-02-26 07:10:43] DEBUG [NimaStartUpSocial._refresh_grid:226] Grid refreshed with 16 items
+[2026-02-26 07:10:44] DEBUG [NimaStartUpSocial._grid_drag_enter:119] Drag enter: https://github.com
+[2026-02-26 07:10:44] INFO [NimaStartUpSocial._grid_drop:130] Drop received: url=https://github.com, pos=PyQt6.QtCore.QPoint(819, 684)
+[2026-02-26 07:10:44] INFO [NimaStartUpSocial._grid_drop:167] Reorder: src=10 -> target=15
+[2026-02-26 07:10:44] INFO [NimaStartUpSocial._grid_drop:180] Drop accepted and refresh scheduled
+[2026-02-26 07:10:44] DEBUG [NimaStartUpSocial._refresh_grid:226] Grid refreshed with 16 items
+[2026-02-26 07:13:19] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 07:13:19] INFO [NimaStartUpSocial.main:8] Application starting...
+[2026-02-26 07:13:20] DEBUG [NimaStartUpSocial._refresh_grid:270] Grid refreshed with 16 items
+[2026-02-26 07:13:24] DEBUG [NimaStartUpSocial._grid_drag_enter:119] Drag enter accepted
+[2026-02-26 07:13:26] INFO [NimaStartUpSocial._grid_drop:140] Drop received: url=https://aistudio.google.com/apps/4602f914-fbef-4537-a5cc-ba9eaf9b76cf?showPreview=true&showAssistant=true, pos=PyQt6.QtCore.QPoint(527, 626)
+[2026-02-26 07:13:26] INFO [NimaStartUpSocial._grid_drop:151] Adding new shortcut from external drop: https://aistudio.google.com/apps/4602f914-fbef-4537-a5cc-ba9eaf9b76cf?showPreview=true&showAssistant=true
+[2026-02-26 07:13:26] INFO [NimaStartUpSocial._grid_drop:185] New shortcut added: جوجل (https://aistudio.google.com/apps/4602f914-fbef-4537-a5cc-ba9eaf9b76cf?showPreview=true&showAssistant=true)
+[2026-02-26 07:13:26] DEBUG [NimaStartUpSocial._refresh_grid:270] Grid refreshed with 17 items
+[2026-02-26 07:17:19] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 07:17:19] INFO [NimaStartUpSocial.main:24] Application starting...
+[2026-02-26 07:17:19] DEBUG [NimaStartUpSocial._refresh_grid:289] Grid refreshed: 17 items
+[2026-02-26 07:17:49] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 07:17:50] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 07:18:43] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 07:18:44] DEBUG [NimaStartUpSocial._refresh_grid:289] Grid refreshed: 17 items
+[2026-02-26 07:18:44] INFO [NimaStartUpSocial._grid_drop:170] Drop received: url=https://chatgpt.com, pos=PyQt6.QtCore.QPoint(643, 103)
+[2026-02-26 07:18:44] INFO [NimaStartUpSocial._handle_internal_reorder:215] Reorder: 0 -> 1
+[2026-02-26 07:18:44] DEBUG [NimaStartUpSocial._refresh_grid:289] Grid refreshed: 17 items
+[2026-02-26 07:24:53] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 07:24:53] INFO [NimaStartUpSocial.main:24] Application starting...
+[2026-02-26 07:25:46] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 07:29:47] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 11:33:35] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 11:34:45] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 11:34:45] INFO [NimaStartUpSocial.main:24] Application starting...
+[2026-02-26 11:36:21] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 11:36:21] INFO [NimaStartUpSocial.main:24] Application starting...
+[2026-02-26 14:13:15] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 14:13:15] INFO [NimaStartUpSocial.main:24] Application starting...
+[2026-02-26 14:13:15] CRITICAL [NimaStartUpSocial._global_exception_handler:17] Unhandled exception
+Traceback (most recent call last):
+  File "E:\NimaTechVibeCoding\NimaStartUpSocial\app.py", line 38, in <module>
+    main()
+    ~~~~^^
+  File "E:\NimaTechVibeCoding\NimaStartUpSocial\app.py", line 32, in main
+    window = MainWindow()
+  File "E:\NimaTechVibeCoding\NimaStartUpSocial\ui\main_window.py", line 83, in __init__
+    self._build_ui()
+    ~~~~~~~~~~~~~~^^
+  File "E:\NimaTechVibeCoding\NimaStartUpSocial\ui\main_window.py", line 173, in _build_ui
+    self.category_tabs = QTabBar()
+                         ^^^^^^^
+NameError: name 'QTabBar' is not defined
+[2026-02-26 14:13:40] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 14:13:40] INFO [NimaStartUpSocial.main:24] Application starting...
+[2026-02-26 14:13:41] CRITICAL [NimaStartUpSocial._global_exception_handler:17] Unhandled exception
+Traceback (most recent call last):
+  File "E:\NimaTechVibeCoding\NimaStartUpSocial\app.py", line 38, in <module>
+    main()
+    ~~~~^^
+  File "E:\NimaTechVibeCoding\NimaStartUpSocial\app.py", line 32, in main
+    window = MainWindow()
+  File "E:\NimaTechVibeCoding\NimaStartUpSocial\ui\main_window.py", line 92, in __init__
+    self._update_category_tabs()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\NimaTechVibeCoding\NimaStartUpSocial\ui\main_window.py", line 555, in _update_category_tabs
+    self.category_tabs.clear()
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'QTabBar' object has no attribute 'clear'
+[2026-02-26 14:13:52] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 14:13:52] INFO [NimaStartUpSocial.main:24] Application starting...
+[2026-02-26 14:16:44] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 14:16:44] INFO [NimaStartUpSocial.main:24] Application starting...
+[2026-02-26 14:18:06] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 14:18:06] INFO [NimaStartUpSocial.main:24] Application starting...
+[2026-02-26 14:18:51] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 14:18:51] INFO [NimaStartUpSocial.main:24] Application starting...
+[2026-02-26 14:20:07] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 14:20:07] INFO [NimaStartUpSocial.main:24] Application starting...
+[2026-02-26 14:21:38] INFO [NimaStartUpSocial.initialize:47] --- Logger Initialized (Enterprise Mode) ---
+[2026-02-26 14:21:38] INFO [NimaStartUpSocial.main:24] Application starting...

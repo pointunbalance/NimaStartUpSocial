@@ -11,12 +11,8 @@ class ConfigManager:
 
     @staticmethod
     def get_data_dir() -> Path:
-        system = platform.system().lower()
-        if system == "windows":
-            return Path(os.environ.get("APPDATA", str(Path.home()))) / ConfigManager.APP_NAME
-        if system == "darwin":
-            return Path.home() / "Library" / "Application Support" / ConfigManager.APP_NAME
-        return Path.home() / ".config" / ConfigManager.APP_NAME
+        from utils.path_utils import PathUtils
+        return PathUtils.get_data_dir()
 
     @staticmethod
     def get_config_file() -> Path:
@@ -24,7 +20,7 @@ class ConfigManager:
 
     @staticmethod
     def _ensure_dir() -> None:
-        ConfigManager.get_data_dir().mkdir(parents=True, exist_ok=True)
+        ConfigManager.get_data_dir()
 
     @staticmethod
     def get_defaults() -> List[Shortcut]:
@@ -91,8 +87,9 @@ class ConfigManager:
                 if changed:
                     ConfigManager.save(result, global_browser)
                 return result, global_browser
-        except Exception:
-            pass
+        except Exception as e:
+            from utils.logger_service import logger
+            logger.warning(f"Failed to load config, falling back to defaults: {e}")
 
         data = ConfigManager.get_defaults()
         ConfigManager.save(data, default_browser)

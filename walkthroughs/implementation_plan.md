@@ -1,32 +1,45 @@
-# Launch and Verify Application Plan
+# Plan: Add Comprehensive Application Tests
 
-Run the application to ensure it starts correctly after the MVC refactor.
-
-## User Review Required
-
-> [!IMPORTANT]
-> **Dependency Inconsistency**: `app.py` uses `PyQt6` while `requirements.txt` specifies `PySide6`. I will align them to `PyQt6` as it seems to be the preferred framework in the code.
+Add a robust suite of unit and logic tests to ensure application stability, covering database management, utilities, and core services.
 
 ## Proposed Changes
 
-### Environment & Structure
+### Tests Component
 
-#### [MODIFY] [requirements.txt](file:///e:/NimaTechVibeCoding/NimaStartUpSocial/requirements.txt)
+Summary: Adding new test files to the `tests/` directory to cover previously untested areas.
 
-Update `PySide6` to `PyQt6`.
+#### [NEW] [test_config_manager_logic.py](file:///e:/NimaTechVibeCoding/NimaStartUpSocial/tests/test_config_manager_logic.py)
 
-#### [NEW] [backups](file:///e:/NimaTechVibeCoding/NimaStartUpSocial/backups)
+- Test `ConfigManager.load()` with missing files.
+- Test `ConfigManager.save()` and verify JSON content.
+- Test `ConfigManager.export_shortcuts()` and `import_shortcuts()`.
 
-Ensure the `backups/` directory exists for file integrity.
+#### [NEW] [test_path_utils_robust.py](file:///e:/NimaTechVibeCoding/NimaStartUpSocial/tests/test_path_utils_robust.py)
+
+- Test `PathUtils.get_data_dir()` behavior in dev vs frozen mode (mocking).
+- Test path normalization.
+
+#### [NEW] [test_strings_logic.py](file:///e:/NimaTechVibeCoding/NimaStartUpSocial/tests/test_strings_logic.py)
+
+- Test `Strings.get()` with various keys.
+- Test Arabic/English toggle logic if applicable.
+
+#### [NEW] [test_catalog_logic.py](file:///e:/NimaTechVibeCoding/NimaStartUpSocial/tests/test_catalog_logic.py)
+
+- Test `SiteCatalog.normalize()` for various URLs and names.
+- Test shortcut categorization logic.
+
+#### [NEW] [test_browser_logic.py](file:///e:/NimaTechVibeCoding/NimaStartUpSocial/tests/test_browser_logic.py)
+
+- Test browser detection logic (mocking `os.path.exists`).
 
 ## Verification Plan
 
 ### Automated Tests
 
-- Run `python app.py` to check for runtime errors.
-- Verify `logs/app.log` for any startup issues.
+- Run `python -m unittest discover tests` to execute all tests.
+- Individual tests can be run via `python tests/test_filename.py`.
 
 ### Manual Verification
 
-- Visual check of the Qt window.
-- Interaction with UI elements.
+- None required for pure logic tests.

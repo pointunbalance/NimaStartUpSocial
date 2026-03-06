@@ -3,7 +3,7 @@
 [Setup]
 AppId={{D8C9B2E5-F123-4A57-90D0-7D24038A370D}
 AppName=NimaStartUpSocial
-AppVersion=1.7.0
+AppVersion=1.7.1
 AppPublisher=NimaTechVibe
 DefaultDirName={autopf}\NimaStartUpSocial
 DefaultGroupName=NimaStartUpSocial

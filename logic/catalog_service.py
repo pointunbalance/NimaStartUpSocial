@@ -72,6 +72,9 @@ class SiteCatalog:
     @staticmethod
     def get_icon_meta(shortcut: Shortcut) -> Tuple[str, str, Optional[str]]:
         """Returns (Letters, Color, Optional FontAwesome Icon Name)"""
+        if "id=61585982617699" in shortcut.url:
+            return "", "#ffffff", "APP_ICON"
+        
         item = SiteCatalog.find_by_url(shortcut.url)
         if item:
             return item[3], item[4], item[5]

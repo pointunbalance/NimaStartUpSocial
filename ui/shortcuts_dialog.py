@@ -345,7 +345,7 @@ class ShortcutsDialog(QDialog):
             if shortcuts:
                 self.shortcuts = shortcuts
                 self._refresh(0)
-                from ui.main_window import show_toast
+                from ui.widgets.toast_widget import show_toast
                 show_toast(get_string("msg_import_success"), self)
         except Exception as e:
             QMessageBox.critical(self, get_string("shortcuts_manager_title"), get_string("msg_import_error"))
@@ -362,7 +362,7 @@ class ShortcutsDialog(QDialog):
             # but we can just export the shortcuts. 
             # MainWindow handles the save of global_browser.
             ConfigManager.export_shortcuts(Path(path), self.shortcuts)
-            from ui.main_window import show_toast
+            from ui.widgets.toast_widget import show_toast
             show_toast(get_string("msg_export_success"), self)
         except Exception as e:
             QMessageBox.critical(self, get_string("shortcuts_manager_title"), str(e))

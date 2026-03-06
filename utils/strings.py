@@ -56,6 +56,14 @@ STRINGS = {
     "dash_welcome": ("أهلاً بك،", "Welcome,"),
     "dash_date_prefix": ("اليوم هو:", "Today is:"),
     "cat_popular": ("الأكثر استخداماً", "Popular"),
+    "dev_info": ("معلومات المطور", "Developer Info"),
+    "msg_app_background": ("التطبيق ما زال يعمل في الخلفية", "App is still running in background"),
+    "msg_browser_saved": ("تم حفظ المتصفح الافتراضي", "Default browser saved"),
+    "msg_site_exists": ("هذا الموقع موجود بالفعل!", "This site already exists!"),
+    "msg_added": ("تمت إضافة:", "Added:"),
+    "msg_browser_error": ("فشل فتح المتصفح! تأكد من تثبيته.", "Failed to open browser! Make sure it is installed."),
+    "msg_internet_error": ("لا يوجد اتصال بالإنترنت لتحديث العناوين.", "No internet connection to fetch titles."),
+    "tray_quit": ("إغلاق نهائي", "Quit"),
 }
 
 def get_string(key: str, lang_idx: int = 0) -> str:

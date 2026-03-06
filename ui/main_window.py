@@ -55,13 +55,15 @@ class TitleFetcher(QThread):
                 title = soup.title.string.strip() if soup.title else ""
                 if title:
                     self.finished.emit(self.url, title)
+        except requests.exceptions.ConnectionError:
+            logger.debug(f"Title fetch failed: No internet connection.")
         except Exception as e:
             logger.debug(f"Title fetch failed for {self.url}: {e}")
 
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle(f"{get_string('app_name')} v1.7")
+        self.setWindowTitle(f"{get_string('app_name')} v1.7.1")
         self.setWindowIcon(get_app_icon())
         self.resize(1100, 750)
         self.setMinimumSize(800, 600)
@@ -104,7 +106,7 @@ class MainWindow(QMainWindow):
         if self.tray.isVisible():
             self.hide()
             event.ignore()
-            show_toast("التطبيق ما زال يعمل في الخلفية", self)
+            show_toast(get_string("msg_app_background"), self)
         else:
             event.accept()
 
@@ -243,202 +245,7 @@ class MainWindow(QMainWindow):
     def _on_global_browser_changed(self, index):
         self.global_browser = self.browser_combo.itemData(index)
         ConfigManager.save(self.shortcuts, self.global_browser)
-        show_toast("تم حفظ المتصفح الافتراضي", self)
-
-    def _setup_window_hotkeys(self):
-        # Clear existing
-        if hasattr(self, "_shortcut_bindings"):
-            for s in self._shortcut_bindings:
-                s.setEnabled(False)
-                s.deleteLater()
-        
-        self._shortcut_bindings = []
-        for s in self.shortcuts:
-            if s.hotkey:
-                qs = QShortcut(QKeySequence(s.hotkey), self)
-                qs.activated.connect(lambda target=s: self._open_shortcut(target))
-                self._shortcut_bindings.append(qs)
-
-    def _on_search_changed(self, text):
-        self.filter_query = text.strip().lower()
-        self._refresh_grid(animate=False)
-
-    def _grid_drag_enter(self, event) -> None:
-        if event.mimeData().hasText() or event.mimeData().hasUrls():
-            event.acceptProposedAction()
-
-    def _grid_drag_move(self, event) -> None:
-        if event.mimeData().hasText() or event.mimeData().hasUrls():
-            event.acceptProposedAction()
-
-    def _grid_drop(self, event) -> None:
-        mime = event.mimeData()
-        url = ""
-        if mime.hasUrls():
-            url = mime.urls()[0].toString()
-        elif mime.hasText():
-            url = mime.text().strip()
-        
-        if not url: return
-            
-        pos = event.position().toPoint()
-        src_idx = next((i for i, s in enumerate(self.shortcuts) if s.url == url), -1)
-        
-        if src_idx == -1:
-            self._handle_external_drop(url, event)
-        else:
-            self._handle_internal_reorder(src_idx, url, pos, event)
-
-    def _handle_external_drop(self, url: str, event) -> None:
-        info = SiteCatalog.find_by_url(url)
-        if info:
-            name, name_en = info[1], info[2]
-        else:
-            host = urlparse(url).netloc.replace("www.", "")
-            name = name_en = host or url[:30]
-        
-        if any(SiteCatalog.get_host(s.url) == SiteCatalog.get_host(url) for s in self.shortcuts):
-            show_toast("هذا الموقع موجود بالفعل!", self)
-            event.accept()
-            return
-        
-        new_shortcut = Shortcut(name=name, url=url, browser="default", name_en=name_en)
-        self.shortcuts.append(new_shortcut)
-        ConfigManager.save(self.shortcuts, self.global_browser)
-        
-        # Async title fetch
-        self._fetcher = TitleFetcher(url)
-        self._fetcher.finished.connect(self._on_title_fetched)
-        self._fetcher.start()
-        
-        QTimer.singleShot(50, lambda: self._refresh_grid(animate=False))
-        self._update_category_tabs()
-        event.setDropAction(Qt.DropAction.CopyAction)
-        event.accept()
-        show_toast(f"تمت إضافة: {name}", self)
-
-    def _on_title_fetched(self, url, title):
-        for s in self.shortcuts:
-            if s.url == url:
-                host = urlparse(url).netloc.replace("www.", "")
-                if s.name == host:
-                    s.name = title[:25] + ("..." if len(title) > 25 else "")
-                    ConfigManager.save(self.shortcuts, self.global_browser)
-                    self._refresh_grid(animate=False)
-                break
-
-    def _handle_internal_reorder(self, src_idx: int, url: str, pos: QPoint, event) -> None:
-        target_idx = self._find_target_index(pos)
-        if target_idx != -1 and target_idx != src_idx:
-            item = self.shortcuts.pop(src_idx)
-            self.shortcuts.insert(target_idx, item)
-            ConfigManager.save(self.shortcuts, self.global_browser)
-            QTimer.singleShot(50, lambda: self._refresh_grid(animate=False))
-            event.setDropAction(Qt.DropAction.MoveAction)
-            event.accept()
-
-    def _find_target_index(self, pos: QPoint) -> int:
-        child = self.grid_widget.childAt(pos)
-        if child:
-            parent = child
-            while parent and not isinstance(parent, ShortcutCard):
-                parent = parent.parentWidget()
-            if parent and isinstance(parent, ShortcutCard):
-                for i, s in enumerate(self.shortcuts):
-                    if s.url == parent.shortcut.url:
-                        return i
-        
-
-        manage_btn = QPushButton(get_string("shortcuts_manager_title"))
-        manage_btn.setObjectName("secondaryBtn")
-        manage_btn.setToolTip("Ctrl+M")
-        manage_btn.clicked.connect(self._open_manager)
-        top_bar.addWidget(manage_btn)
-
-        close_btn = QPushButton("✕")
-        close_btn.setObjectName("dangerBtn")
-        close_btn.setFixedSize(40, 40)
-        close_btn.setToolTip("Ctrl+Q")
-        close_btn.clicked.connect(self.close)
-        top_bar.addWidget(close_btn)
-
-        layout.addLayout(top_bar)
-
-        # Category Tabs
-        self.category_tabs = QTabBar()
-        self.category_tabs.setObjectName("categoryTabs")
-        self.category_tabs.setExpanding(False)
-        self.category_tabs.setDrawBase(False)
-        self.category_tabs.currentChanged.connect(lambda: self._refresh_grid(animate=False))
-        
-        tabs_container = QHBoxLayout()
-        tabs_container.setContentsMargins(24, 0, 24, 10)
-        tabs_container.addWidget(self.category_tabs)
-        tabs_container.addStretch(1)
-        layout.addLayout(tabs_container)
-
-        # Dashboard Widget [v1.5]
-        self.dashboard = DashboardWidget()
-        layout.addWidget(self.dashboard)
-
-
-        self.scroll = QScrollArea()
-        self.scroll.setWidgetResizable(True)
-        self.scroll.setObjectName("mainScroll")
-        self.scroll.setFrameShape(QFrame.Shape.NoFrame)
-        self.scroll.viewport().setAutoFillBackground(False)
-        
-        self.grid_widget = QWidget()
-        self.grid_widget.setObjectName("shortcutsGrid")
-        self.grid_widget.setAcceptDrops(True)
-        self.grid_widget.dragEnterEvent = self._grid_drag_enter
-        self.grid_widget.dragMoveEvent = self._grid_drag_move
-        self.grid_widget.dropEvent = self._grid_drop
-        
-        self.grid_layout = QGridLayout(self.grid_widget)
-        self.grid_layout.setContentsMargins(24, 24, 24, 40)
-        self.grid_layout.setSpacing(TILE_SPACING)
-        self.grid_layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight)
-        
-        self.scroll.setWidget(self.grid_widget)
-        layout.addWidget(self.scroll, 1)
-
-        footer = QHBoxLayout()
-        footer.setDirection(QHBoxLayout.Direction.RightToLeft)
-        self.autostart_check = QCheckBox(get_string("checkbox_autostart"))
-        self.autostart_check.setChecked(AutostartService.is_enabled())
-        self.autostart_check.toggled.connect(AutostartService.set_enabled)
-        footer.addWidget(self.autostart_check)
-        footer.addStretch(1)
-
-        # Global Browser Selection
-        browser_label = QLabel(get_string("label_global_browser"))
-        browser_label.setStyleSheet("color: #475569; font-weight: 500;")
-        footer.addWidget(browser_label)
-
-        self.browser_combo = QComboBox()
-        self.browser_combo.setObjectName("browserSelector")
-        self.browser_combo.setFixedWidth(200)
-        self.browser_combo.addItem(get_string("browser_default"), "default")
-        
-        for key, path in self.browsers.items():
-            name = get_string(f"browser_{key}")
-            self.browser_combo.addItem(name, key)
-        
-        # Select current
-        idx = self.browser_combo.findData(self.global_browser)
-        if idx != -1:
-            self.browser_combo.setCurrentIndex(idx)
-        
-        self.browser_combo.currentIndexChanged.connect(self._on_global_browser_changed)
-        footer.addWidget(self.browser_combo)
-
-        layout.addLayout(footer)
-
-    def _on_global_browser_changed(self, index):
-        self.global_browser = self.browser_combo.itemData(index)
-        ConfigManager.save(self.shortcuts, self.global_browser)
-        show_toast("تم حفظ المتصفح الافتراضي", self)
+        show_toast(get_string("msg_browser_saved"), self)
 
     def _setup_window_hotkeys(self):
         # Clear existing
@@ -548,6 +355,80 @@ class MainWindow(QMainWindow):
         row = pos.y() // TILE_STEP
         return min(len(self.shortcuts) - 1, max(0, row * GRID_COLS + col))
 
+    def _grid_drag_enter(self, event) -> None:
+        if event.mimeData().hasText() or event.mimeData().hasUrls():
+            event.acceptProposedAction()
+
+    def _grid_drag_move(self, event) -> None:
+        if event.mimeData().hasText() or event.mimeData().hasUrls():
+            event.acceptProposedAction()
+
+    def _grid_drop(self, event) -> None:
+        mime = event.mimeData()
+        url = ""
+        if mime.hasUrls():
+            url = mime.urls()[0].toString()
+        elif mime.hasText():
+            url = mime.text().strip()
+        
+        if not url: return
+            
+        pos = event.position().toPoint()
+        src_idx = next((i for i, s in enumerate(self.shortcuts) if s.url == url), -1)
+        
+        if src_idx == -1:
+            self._handle_external_drop(url, event)
+        else:
+            self._handle_internal_reorder(src_idx, url, pos, event)
+
+    def _handle_external_drop(self, url: str, event) -> None:
+        info = SiteCatalog.find_by_url(url)
+        if info:
+            name, name_en = info[1], info[2]
+        else:
+            host = urlparse(url).netloc.replace("www.", "")
+            name = name_en = host or url[:30]
+        
+        if any(SiteCatalog.get_host(s.url) == SiteCatalog.get_host(url) for s in self.shortcuts):
+            show_toast(get_string("msg_site_exists"), self)
+            event.accept()
+            return
+        
+        new_shortcut = Shortcut(name=name, url=url, browser="default", name_en=name_en)
+        self.shortcuts.append(new_shortcut)
+        ConfigManager.save(self.shortcuts, self.global_browser)
+        
+        # Async title fetch
+        self._fetcher = TitleFetcher(url)
+        self._fetcher.finished.connect(self._on_title_fetched)
+        self._fetcher.start()
+        
+        QTimer.singleShot(50, lambda: self._refresh_grid(animate=False))
+        self._update_category_tabs()
+        event.setDropAction(Qt.DropAction.CopyAction)
+        event.accept()
+        show_toast(f"{get_string('msg_added')} {name}", self)
+
+    def _on_title_fetched(self, url, title):
+        for s in self.shortcuts:
+            if s.url == url:
+                host = urlparse(url).netloc.replace("www.", "")
+                if s.name == host:
+                    s.name = title[:25] + ("..." if len(title) > 25 else "")
+                    ConfigManager.save(self.shortcuts, self.global_browser)
+                    self._refresh_grid(animate=False)
+                break
+
+    def _handle_internal_reorder(self, src_idx: int, url: str, pos: QPoint, event) -> None:
+        target_idx = self._find_target_index(pos)
+        if target_idx != -1 and target_idx != src_idx:
+            item = self.shortcuts.pop(src_idx)
+            self.shortcuts.insert(target_idx, item)
+            ConfigManager.save(self.shortcuts, self.global_browser)
+            QTimer.singleShot(50, lambda: self._refresh_grid(animate=False))
+            event.setDropAction(Qt.DropAction.MoveAction)
+            event.accept()
+
     def _update_category_tabs(self):
         self.category_tabs.blockSignals(True)
         current = self.category_tabs.tabText(self.category_tabs.currentIndex()) if self.category_tabs.count() > 0 else get_string("cat_all")
@@ -620,6 +501,15 @@ class MainWindow(QMainWindow):
             if matches_search and matches_category:
                 visible_shortcuts.append(s)
 
+        # Permanent Developer Shortcut [Fixed at the end]
+        dev_shortcut = Shortcut(
+            name=get_string("dev_info"),
+            url="https://www.facebook.com/profile.php?id=61585982617699",
+            browser="default",
+            category="General"
+        )
+        visible_shortcuts.append(dev_shortcut)
+
         for i, shortcut in enumerate(visible_shortcuts):
             card = ShortcutCard(shortcut, self._open_shortcut)
             self.grid_layout.addWidget(card, i // GRID_COLS, i % GRID_COLS)
@@ -645,14 +535,18 @@ class MainWindow(QMainWindow):
         self.grid_widget.update()
 
     def _open_shortcut(self, shortcut: Shortcut) -> None:
-        # Increment clicks [v1.6]
-        shortcut.clicks += 1
-        ConfigManager.save(self.shortcuts, self.global_browser)
+        # Skip click tracking for developer shortcut (transient object)
+        DEV_URL = "https://www.facebook.com/profile.php?id=61585982617699"
+        if shortcut.url != DEV_URL:
+            shortcut.clicks += 1
+            ConfigManager.save(self.shortcuts, self.global_browser)
         
         browser_key = shortcut.browser
         if browser_key == "default":
             browser_key = self.global_browser
-        BrowserService.open_url(shortcut.url, browser_key, self.browsers)
+        success = BrowserService.open_url(shortcut.url, browser_key, self.browsers)
+        if not success:
+            show_toast(get_string("msg_browser_error"), self)
 
     def _open_manager(self) -> None:
         dlg = ShortcutsDialog(self.shortcuts, self)

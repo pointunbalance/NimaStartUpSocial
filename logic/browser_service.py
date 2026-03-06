@@ -3,6 +3,7 @@ import platform
 import shutil
 import subprocess
 import webbrowser
+from functools import lru_cache
 from pathlib import Path
 from typing import Dict, List
 
@@ -48,6 +49,7 @@ class BrowserService:
     }
 
     @staticmethod
+    @lru_cache(maxsize=1)
     def get_installed_browsers() -> Dict[str, str]:
         system = platform.system().lower()
         out: Dict[str, str] = {}
@@ -74,5 +76,7 @@ class BrowserService:
         try:
             subprocess.Popen([path, url])
             return True
-        except OSError:
+        except Exception as e:
+            from utils.logger_service import logger
+            logger.error(f"Failed to open browser {browser_key} at {path}: {e}")
             return False

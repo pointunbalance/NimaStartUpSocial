@@ -11,9 +11,9 @@ class LoggerService:
         if cls._logger:
             return cls._logger
 
-        # Ensure logs directory exists
-        log_dir = Path("logs")
-        log_dir.mkdir(exist_ok=True)
+        # Ensure logs directory exists using centralized PathUtils
+        from utils.path_utils import PathUtils
+        log_dir = PathUtils.get_logs_dir()
         log_file = log_dir / "app.log"
 
         cls._logger = logging.getLogger("NimaStartUpSocial")

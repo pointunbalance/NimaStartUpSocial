@@ -1,0 +1,10 @@
+# Version History Log - NimaStartupSocial
+
+- v1.1: Initial stable version.
+- v1.2: Added drag-and-drop features.
+- v1.3: Improved UI styling.
+- v1.4: Refactored to MVC.
+- v1.5: Added Dashboard and Click tracking.
+- v1.6: Finalized click sorting and Popular category.
+- v1.7: Added Acrylic blur and premium redesign.
+- v1.7.1: Implemented comprehensive unit tests and proactive error handling system.

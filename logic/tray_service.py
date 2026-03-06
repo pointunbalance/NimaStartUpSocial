@@ -21,7 +21,7 @@ class SystemTrayService(QSystemTrayIcon):
         show_action = QAction(get_string("btn_open"), self)
         show_action.triggered.connect(self.window.show_and_activate)
         
-        quit_action = QAction("إغلاق نهائي", self) # Fixed Arabic for "Quit"
+        quit_action = QAction(get_string("tray_quit"), self)
         quit_action.triggered.connect(self.window.quit_application)
         
         menu.addAction(show_action)

@@ -3,8 +3,6 @@ MainWindow - Primary application window with glassmorphism UI,
 drag-and-drop reordering, system tray integration, and quick filtering.
 """
 from urllib.parse import urlparse
-import requests
-from bs4 import BeautifulSoup
 
 from PyQt6.QtCore import (
     Qt, QPoint, QPropertyAnimation, QEasingCurve, QTimer, 
@@ -48,6 +46,8 @@ class TitleFetcher(QThread):
 
     def run(self):
         try:
+            import requests
+            from bs4 import BeautifulSoup
             headers = {'User-Agent': 'Mozilla/5.0'}
             response = requests.get(self.url, headers=headers, timeout=5)
             if response.status_code == 200:
@@ -78,6 +78,7 @@ class MainWindow(QMainWindow):
 
         self._old_pos = None
         self._anims: list = []
+        self._fetchers: list = []
         self.shortcuts, self.global_browser = ConfigManager.load()
         self.browsers = BrowserService.get_installed_browsers()
         self.filter_query = ""
@@ -265,80 +266,6 @@ class MainWindow(QMainWindow):
         self.filter_query = text.strip().lower()
         self._refresh_grid(animate=False)
 
-    def _grid_drag_enter(self, event) -> None:
-        if event.mimeData().hasText() or event.mimeData().hasUrls():
-            event.acceptProposedAction()
-
-    def _grid_drag_move(self, event) -> None:
-        if event.mimeData().hasText() or event.mimeData().hasUrls():
-            event.acceptProposedAction()
-
-    def _grid_drop(self, event) -> None:
-        mime = event.mimeData()
-        url = ""
-        if mime.hasUrls():
-            url = mime.urls()[0].toString()
-        elif mime.hasText():
-            url = mime.text().strip()
-        
-        if not url: return
-            
-        pos = event.position().toPoint()
-        src_idx = next((i for i, s in enumerate(self.shortcuts) if s.url == url), -1)
-        
-        if src_idx == -1:
-            self._handle_external_drop(url, event)
-        else:
-            self._handle_internal_reorder(src_idx, url, pos, event)
-
-    def _handle_external_drop(self, url: str, event) -> None:
-        info = SiteCatalog.find_by_url(url)
-        if info:
-            name, name_en = info[1], info[2]
-        else:
-            host = urlparse(url).netloc.replace("www.", "")
-            name = name_en = host or url[:30]
-        
-        if any(SiteCatalog.get_host(s.url) == SiteCatalog.get_host(url) for s in self.shortcuts):
-            show_toast("هذا الموقع موجود بالفعل!", self)
-            event.accept()
-            return
-        
-        new_shortcut = Shortcut(name=name, url=url, browser="default", name_en=name_en)
-        self.shortcuts.append(new_shortcut)
-        ConfigManager.save(self.shortcuts, self.global_browser)
-        
-        # Async title fetch
-        self._fetcher = TitleFetcher(url)
-        self._fetcher.finished.connect(self._on_title_fetched)
-        self._fetcher.start()
-        
-        QTimer.singleShot(50, lambda: self._refresh_grid(animate=False))
-        self._update_category_tabs()
-        event.setDropAction(Qt.DropAction.CopyAction)
-        event.accept()
-        show_toast(f"تمت إضافة: {name}", self)
-
-    def _on_title_fetched(self, url, title):
-        for s in self.shortcuts:
-            if s.url == url:
-                host = urlparse(url).netloc.replace("www.", "")
-                if s.name == host:
-                    s.name = title[:25] + ("..." if len(title) > 25 else "")
-                    ConfigManager.save(self.shortcuts, self.global_browser)
-                    self._refresh_grid(animate=False)
-                break
-
-    def _handle_internal_reorder(self, src_idx: int, url: str, pos: QPoint, event) -> None:
-        target_idx = self._find_target_index(pos)
-        if target_idx != -1 and target_idx != src_idx:
-            item = self.shortcuts.pop(src_idx)
-            self.shortcuts.insert(target_idx, item)
-            ConfigManager.save(self.shortcuts, self.global_browser)
-            QTimer.singleShot(50, lambda: self._refresh_grid(animate=False))
-            event.setDropAction(Qt.DropAction.MoveAction)
-            event.accept()
-
     def _find_target_index(self, pos: QPoint) -> int:
         child = self.grid_widget.childAt(pos)
         if child:
@@ -399,9 +326,11 @@ class MainWindow(QMainWindow):
         ConfigManager.save(self.shortcuts, self.global_browser)
         
         # Async title fetch
-        self._fetcher = TitleFetcher(url)
-        self._fetcher.finished.connect(self._on_title_fetched)
-        self._fetcher.start()
+        fetcher = TitleFetcher(url)
+        fetcher.finished.connect(self._on_title_fetched)
+        fetcher.finished.connect(lambda *_: self._fetchers.remove(fetcher) if fetcher in self._fetchers else None)
+        self._fetchers.append(fetcher)
+        fetcher.start()
         
         QTimer.singleShot(50, lambda: self._refresh_grid(animate=False))
         self._update_category_tabs()

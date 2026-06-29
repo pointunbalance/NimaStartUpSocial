@@ -32,7 +32,7 @@ class TestDragDrop(unittest.TestCase):
         ConfigManager.save(shortcuts)
         
         # Verify persistence
-        verified_shortcuts = ConfigManager.load()
+        verified_shortcuts, _ = ConfigManager.load()
         self.assertEqual(verified_shortcuts[1].url, src_url)
         print("Test Passed: State reordered and persisted.")
 

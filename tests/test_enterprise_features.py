@@ -20,9 +20,9 @@ class TestEnterpriseFeatures(unittest.TestCase):
         window = MainWindow()
         # Mock initial state with known shortcuts
         window.shortcuts = [
-            type('S', (), {'name': 'Google', 'name_en': 'Google', 'url': 'http://google.com'})(),
-            type('S', (), {'name': 'GitHub', 'name_en': 'GitHub', 'url': 'http://github.com'})(),
-            type('S', (), {'name': 'ChatGPT', 'name_en': 'ChatGPT', 'url': 'http://chatgpt.com'})()
+            type('S', (), {'name': 'Google', 'name_en': 'Google', 'url': 'http://google.com', 'clicks': 0, 'category': 'General', 'hotkey': '', 'browser': 'default'})(),
+            type('S', (), {'name': 'GitHub', 'name_en': 'GitHub', 'url': 'http://github.com', 'clicks': 0, 'category': 'General', 'hotkey': '', 'browser': 'default'})(),
+            type('S', (), {'name': 'ChatGPT', 'name_en': 'ChatGPT', 'url': 'http://chatgpt.com', 'clicks': 0, 'category': 'General', 'hotkey': '', 'browser': 'default'})()
         ]
         
         # Filter for "Git"

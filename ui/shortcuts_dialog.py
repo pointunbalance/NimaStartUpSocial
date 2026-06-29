@@ -2,7 +2,7 @@ from typing import List
 from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QListWidget,
-    QPushButton, QFrame, QFormLayout, QListWidgetItem, QAbstractItemView, QMessageBox, QBoxLayout,
+    QPushButton, QFrame, QFormLayout, QListWidgetItem, QAbstractItemView, QMessageBox,
     QFileDialog
 )
 from PyQt6.QtGui import QColor

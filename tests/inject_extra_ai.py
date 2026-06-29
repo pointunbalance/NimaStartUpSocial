@@ -2,7 +2,7 @@ from database.config_manager import ConfigManager
 from logic.catalog_service import Shortcut
 
 def inject_extra_ai():
-    current = ConfigManager.load()
+    current, global_browser = ConfigManager.load()
     existing_urls = [s.url.lower() for s in current]
     
     extra_ai = [
@@ -17,7 +17,7 @@ def inject_extra_ai():
             added = True
     
     if added:
-        ConfigManager.save(current)
+        ConfigManager.save(current, global_browser)
         print("Extra AI shortcuts injected.")
     else:
         print("Shortcuts already exist.")

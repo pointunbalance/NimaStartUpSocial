@@ -131,5 +131,6 @@ class ConfigManager:
             hotkey = str(item.get("hotkey", "")).strip()
             clicks = int(item.get("clicks", 0))
             if name and url:
-                result.append(Shortcut(name, url, browser, name_en, category, hotkey, clicks))
+                n1, n2 = SiteCatalog.normalize(name, name_en, url)
+                result.append(Shortcut(n1, url, browser, n2, category, hotkey, clicks))
         return result, global_browser

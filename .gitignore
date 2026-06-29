@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+build/
+dist/
+*.spec
+*.log
+*.txt
+!requirements.txt
+logs/
+backups/
+installer_output/
+Source Hub/
+Pict/

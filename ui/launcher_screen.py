@@ -335,6 +335,7 @@ class LauncherScreen(QWidget):
             self.category_tabs.removeTab(0)
         self.category_tabs.addTab(get_string("cat_all"))
         self.category_tabs.addTab(get_string("cat_popular"))
+        self.category_tabs.addTab("Recent")
 
         cat_map = {
             "AI": get_string("cat_ai"),
@@ -368,8 +369,11 @@ class LauncherScreen(QWidget):
         active_cat_data = self.category_tabs.tabData(current_idx)
 
         is_popular = selected_cat_text == get_string("cat_popular")
+        is_recent = selected_cat_text == "Recent"
         if is_popular:
             visible = self.service.get_popular(POPULAR_LIMIT)
+        elif is_recent:
+            visible = self.service.get_recent(POPULAR_LIMIT)
         elif active_cat_data:
             visible = self.service.filter(self.filter_query, active_cat_data)
         else:

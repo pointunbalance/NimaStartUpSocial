@@ -67,7 +67,12 @@ class ShortcutService:
 
     def increment_clicks(self, shortcut: Shortcut) -> None:
         shortcut.clicks += 1
+        shortcut.mark_opened()
         self.save()
+
+    def get_recent(self, limit: int = 5) -> List[Shortcut]:
+        opened = [s for s in self.shortcuts if s.last_opened]
+        return sorted(opened, key=lambda s: s.last_opened, reverse=True)[:limit]
 
     def find_by_url(self, url: str) -> Optional[Shortcut]:
         for s in self.shortcuts:

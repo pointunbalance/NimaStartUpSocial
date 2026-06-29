@@ -3,6 +3,7 @@ MainWindow - Primary application window with glassmorphism UI,
 drag-and-drop reordering, system tray integration, and quick filtering.
 """
 from urllib.parse import urlparse
+from functools import partial
 
 from PyQt6.QtCore import (
     Qt, QPoint, QPropertyAnimation, QEasingCurve, QTimer, 
@@ -36,6 +37,7 @@ GRID_COLS = 5
 TILE_SPACING = 20
 TILE_SIZE = 160
 TILE_STEP = TILE_SIZE + TILE_SPACING  # 180
+DEV_URL = "https://www.facebook.com/profile.php?id=61585982617699"
 
 class TitleFetcher(QThread):
     finished = pyqtSignal(str, str) # URL, Title
@@ -433,7 +435,7 @@ class MainWindow(QMainWindow):
         # Permanent Developer Shortcut [Fixed at the end]
         dev_shortcut = Shortcut(
             name=get_string("dev_info"),
-            url="https://www.facebook.com/profile.php?id=61585982617699",
+            url=DEV_URL,
             browser="default",
             category="General"
         )
@@ -452,7 +454,7 @@ class MainWindow(QMainWindow):
                 anim.setEndValue(1.0)
                 anim.setEasingCurve(QEasingCurve.Type.OutCubic)
                 self._anims.append(anim)
-                anim.finished.connect(lambda e=eff, c=card: c.setGraphicsEffect(None))
+                anim.finished.connect(partial(self._clear_effect, card))
                 anim.start()
             else:
                 card.show()
@@ -463,9 +465,11 @@ class MainWindow(QMainWindow):
         self.grid_widget.show()
         self.grid_widget.update()
 
+    def _clear_effect(self, widget):
+        widget.setGraphicsEffect(None)
+
     def _open_shortcut(self, shortcut: Shortcut) -> None:
         # Skip click tracking for developer shortcut (transient object)
-        DEV_URL = "https://www.facebook.com/profile.php?id=61585982617699"
         if shortcut.url != DEV_URL:
             shortcut.clicks += 1
             ConfigManager.save(self.shortcuts, self.global_browser)
@@ -478,7 +482,7 @@ class MainWindow(QMainWindow):
             show_toast(get_string("msg_browser_error"), self)
 
     def _open_manager(self) -> None:
-        dlg = ShortcutsDialog(self.shortcuts, self)
+        dlg = ShortcutsDialog(self.shortcuts, self, self.global_browser)
         if dlg.exec():
             self.shortcuts = dlg.shortcuts
             ConfigManager.save(self.shortcuts, self.global_browser)

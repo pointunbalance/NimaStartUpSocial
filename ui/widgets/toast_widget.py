@@ -56,6 +56,10 @@ class ToastWidget(QWidget):
 
     def fade_out(self):
         self.anim.setDirection(QPropertyAnimation.Direction.Backward)
+        try:
+            self.anim.finished.disconnect(self.close)
+        except TypeError:
+            pass
         self.anim.finished.connect(self.close)
         self.anim.start()
 

@@ -117,7 +117,13 @@ class ConfigManager:
 
     @staticmethod
     def import_shortcuts(path: Path) -> tuple[List[Shortcut], str]:
-        raw = json.loads(path.read_text(encoding="utf-8"))
+        try:
+            raw = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, UnicodeDecodeError) as e:
+            from utils.logger_service import logger
+            logger.warning(f"Failed to import shortcuts from {path}: {e}")
+            return [], "default"
+
         global_settings = raw.get("global", {})
         global_browser = global_settings.get("browser", "default")
         

@@ -13,9 +13,10 @@ from utils.strings import get_string
 from utils.window_blur import WindowBlurService
 
 class ShortcutsDialog(QDialog):
-    def __init__(self, shortcuts: List[Shortcut], parent=None) -> None:
+    def __init__(self, shortcuts: List[Shortcut], parent=None, global_browser: str = "default") -> None:
         super().__init__(parent)
         self.shortcuts = [Shortcut(s.name, s.url, s.browser, s.name_en, s.category, s.hotkey, s.clicks) for s in shortcuts]
+        self.global_browser = global_browser
         self.filtered_indices: List[int] = []
         self.filter_text = ""
         self._rebuilding_list = False
@@ -358,10 +359,7 @@ class ShortcutsDialog(QDialog):
             return
             
         try:
-            # We don't have the global_browser here easily, 
-            # but we can just export the shortcuts. 
-            # MainWindow handles the save of global_browser.
-            ConfigManager.export_shortcuts(Path(path), self.shortcuts)
+            ConfigManager.export_shortcuts(Path(path), self.shortcuts, self.global_browser)
             from ui.widgets.toast_widget import show_toast
             show_toast(get_string("msg_export_success"), self)
         except Exception as e:

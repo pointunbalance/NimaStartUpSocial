@@ -11,7 +11,7 @@ The application follows a strict MVC (Model-View-Controller) pattern:
 
 ## Features Catalog
 
-### Completed Features (v1.7.2)
+### Completed Features (v1.7.3)
 
 - [x] **Glassmorphism UI**: Modern Acrylic blur interface with modern typography.
 - [x] **Drag-and-Drop Reordering**: Users can reorder shortcuts on the grid.
@@ -21,8 +21,9 @@ The application follows a strict MVC (Model-View-Controller) pattern:
 - [x] **Search & Filtering**: Fast real-time filtering of shortcuts.
 - [x] **Usage Analytics**: Click tracking for shortcuts and a "Popular" category tab.
 - [x] **Error Handling System**: Proactive toast notifications for browser and internet issues.
-- [x] **Comprehensive Testing**: 23+ unit and logic tests covering all components.
-- [x] **Easy Installer**: Inno Setup based installer for v1.7.2.
+- [x] **Comprehensive Testing**: 29 passing tests (26 logic + 3 UI).
+- [x] **Easy Installer**: Inno Setup based installer.
+- [x] **Logical Bug Fixes**: 6 critical logic errors fixed (v1.7.3).
 
 ## UI Map
 

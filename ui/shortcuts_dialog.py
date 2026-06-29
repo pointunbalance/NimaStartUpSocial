@@ -1,5 +1,5 @@
 from typing import List
-from PyQt6.QtCore import Qt, QPoint
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QListWidget,
     QPushButton, QFrame, QFormLayout, QListWidgetItem, QAbstractItemView, QMessageBox,
@@ -11,6 +11,7 @@ from logic.catalog_service import Shortcut, SiteCatalog
 from database.config_manager import ConfigManager
 from utils.strings import get_string
 from utils.window_blur import WindowBlurService
+from utils.logger_service import logger
 
 class ShortcutsDialog(QDialog):
     def __init__(self, shortcuts: List[Shortcut], parent=None, global_browser: str = "default") -> None:
@@ -31,7 +32,10 @@ class ShortcutsDialog(QDialog):
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
         # Enable Glass Effect
-        WindowBlurService.enable_acrylic(self, QColor(255, 255, 255, 5))
+        try:
+            WindowBlurService.enable_acrylic(self, QColor(255, 255, 255, 5))
+        except Exception as e:
+            logger.debug(f"Acrylic blur unavailable in dialog: {e}")
 
         self._old_pos = None
         self._build_ui()

@@ -104,9 +104,13 @@ class ConfigManager:
             },
             "shortcuts": [asdict(x) for x in shortcuts]
         }
-        ConfigManager.get_config_file().write_text(
-            json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8"
-        )
+        try:
+            ConfigManager.get_config_file().write_text(
+                json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8"
+            )
+        except OSError as e:
+            from utils.logger_service import logger
+            logger.error(f"Failed to save config: {e}")
     @staticmethod
     def export_shortcuts(path: Path, shortcuts: List[Shortcut], global_browser: str = "default") -> None:
         payload = {

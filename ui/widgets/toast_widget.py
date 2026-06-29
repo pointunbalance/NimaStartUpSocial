@@ -1,9 +1,8 @@
 """
 ToastWidget - A non-blocking overlay notification that fades out.
 """
-from PyQt6.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve, QPoint
+from PyQt6.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve
 from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QGraphicsOpacityEffect
-from PyQt6.QtGui import QColor
 
 class ToastWidget(QWidget):
     def __init__(self, message, parent=None):

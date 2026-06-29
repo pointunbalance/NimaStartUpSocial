@@ -16,7 +16,6 @@ from logic.shortcut_service import ShortcutService
 from logic.title_service import TitleFetcher
 from logic.browser_service import BrowserService
 from logic.autostart_service import AutostartService
-from logic.catalog_service import SiteCatalog
 from logic.tray_service import SystemTrayService
 from ui.widgets.shortcut_card import ShortcutCard
 from ui.widgets.toast_widget import show_toast

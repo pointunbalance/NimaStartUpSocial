@@ -79,7 +79,18 @@ class ShortcutCard(QFrame):
             self.hotkey_badge.setObjectName("hotkeyBadge")
             self.hotkey_badge.setParent(self)
             self.hotkey_badge.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            self.hotkey_badge.move(8, 8) # Top Left (RTL context)
+            self.hotkey_badge.setStyleSheet("""
+                QLabel#hotkeyBadge {
+                    background-color: rgba(13, 148, 136, 180);
+                    color: #ffffff;
+                    border: 1px solid rgba(255, 255, 255, 40);
+                    border-radius: 6px;
+                    padding: 2px 6px;
+                    font-size: 10px;
+                    font-weight: 700;
+                }
+            """)
+            self.hotkey_badge.move(8, 8)
             self.hotkey_badge.show()
             
         main_layout.addStretch(1)

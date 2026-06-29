@@ -20,14 +20,14 @@ class TestEnterpriseFeatures(unittest.TestCase):
 
     def test_search_filter(self):
         window = MainWindow()
-        window.shortcuts = [
+        window.service.shortcuts = [
             Shortcut("جوجل", "http://google.com", "default", "Google", "General"),
             Shortcut("جيت هب", "http://github.com", "default", "GitHub", "General"),
             Shortcut("شات جي بي تي", "http://chatgpt.com", "default", "ChatGPT", "General"),
         ]
         
-        window._on_search_changed("Git")
-        visible_items = [s for s in window.shortcuts if not window.filter_query or window.filter_query in f"{s.name} {s.name_en} {s.url}".lower()]
+        window.filter_query = "git"
+        visible_items = window.service.filter(window.filter_query)
         self.assertEqual(len(visible_items), 1)
         self.assertEqual(visible_items[0].name_en, "GitHub")
 

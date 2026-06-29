@@ -19,7 +19,6 @@ from utils.strings import get_string
 from utils.resource_loader import get_app_icon
 from utils.window_blur import WindowBlurService
 from utils.logger_service import logger
-from utils.path_utils import APP_VERSION
 from utils.constants import (
     TILE_SPACING, POPULAR_LIMIT,
     ANIM_BASE_DURATION, ANIM_STEP_DURATION
@@ -28,7 +27,7 @@ from utils.constants import (
 LAUNCHER_WIDTH = 340
 LAUNCHER_HEIGHT = 700
 LAUNCHER_COLS = 2
-CARD_SIZE = 140
+LAUNCHER_CARD_SIZE = 140
 
 
 class LauncherScreen(QWidget):
@@ -287,7 +286,7 @@ class LauncherScreen(QWidget):
 
         for i, shortcut in enumerate(visible):
             card = ShortcutCard(shortcut, self._open_shortcut)
-            card.setFixedSize(CARD_SIZE, CARD_SIZE)
+            card.setFixedSize(LAUNCHER_CARD_SIZE, LAUNCHER_CARD_SIZE)
             self.grid_layout.addWidget(card, i // LAUNCHER_COLS, i % LAUNCHER_COLS)
             if animate:
                 eff = QGraphicsOpacityEffect(card)

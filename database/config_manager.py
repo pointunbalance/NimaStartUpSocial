@@ -18,7 +18,8 @@ class ConfigManager:
 
     @staticmethod
     def _ensure_dir() -> None:
-        ConfigManager.get_data_dir()
+        """Ensure the data directory exists."""
+        ConfigManager.get_data_dir().mkdir(parents=True, exist_ok=True)
 
     @staticmethod
     def get_defaults() -> List[Shortcut]:

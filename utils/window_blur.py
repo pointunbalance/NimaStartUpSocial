@@ -1,3 +1,4 @@
+import platform
 import ctypes
 from PyQt6.QtWidgets import QWidget
 from PyQt6.QtGui import QColor
@@ -8,6 +9,9 @@ class WindowBlurService:
         """
         Enables the Acrylic blur effect on Windows 10/11.
         """
+        if platform.system() != "Windows":
+            return
+
         if not window.isWindow():
             return
 

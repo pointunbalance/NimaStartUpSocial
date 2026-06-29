@@ -22,5 +22,4 @@ class TitleFetcher(QThread):
                 if title:
                     self.finished.emit(self.url, title)
         except Exception as e:
-            from utils.logger_service import logger
             logger.debug(f"Title fetch failed for {self.url}: {e}")

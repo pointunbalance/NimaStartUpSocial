@@ -1,5 +1,6 @@
 import unittest
-from logic.catalog_service import SiteCatalog, Shortcut
+from logic.catalog_service import SiteCatalog
+from models.shortcut import Shortcut
 
 class TestCatalogLogic(unittest.TestCase):
     def test_normalize_google(self):

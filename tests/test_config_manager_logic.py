@@ -4,7 +4,7 @@ import os
 import shutil
 from pathlib import Path
 from database.config_manager import ConfigManager
-from logic.catalog_service import Shortcut
+from models.shortcut import Shortcut
 
 class TestConfigManagerLogic(unittest.TestCase):
     def setUp(self):

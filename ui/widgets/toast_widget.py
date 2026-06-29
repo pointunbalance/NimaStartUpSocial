@@ -3,6 +3,7 @@ ToastWidget - A non-blocking overlay notification that fades out.
 """
 from PyQt6.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve
 from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QGraphicsOpacityEffect
+from utils.constants import FADE_IN_DURATION, AUTO_CLOSE_DELAY
 
 class ToastWidget(QWidget):
     def __init__(self, message, parent=None):
@@ -16,7 +17,7 @@ class ToastWidget(QWidget):
         self.opacity_effect = QGraphicsOpacityEffect(self)
         self.setGraphicsEffect(self.opacity_effect)
         self.anim = QPropertyAnimation(self.opacity_effect, b"opacity")
-        self.anim.setDuration(500)
+        self.anim.setDuration(FADE_IN_DURATION)
         self.anim.setStartValue(0.0)
         self.anim.setEndValue(1.0)
         self.anim.setEasingCurve(QEasingCurve.Type.OutCubic)
@@ -24,7 +25,7 @@ class ToastWidget(QWidget):
         
         # Position and Auto-close
         QTimer.singleShot(10, self._position_toast)
-        QTimer.singleShot(3000, self.fade_out)
+        QTimer.singleShot(AUTO_CLOSE_DELAY, self.fade_out)
 
     def _build_ui(self, message):
         layout = QVBoxLayout(self)

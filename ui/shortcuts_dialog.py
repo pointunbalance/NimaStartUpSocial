@@ -7,13 +7,18 @@ from PyQt6.QtWidgets import (
 )
 from PyQt6.QtGui import QColor
 from pathlib import Path
-from logic.catalog_service import Shortcut, SiteCatalog
+from models.shortcut import Shortcut
+from logic.catalog_service import SiteCatalog
 from database.config_manager import ConfigManager
+from ui.widgets.toast_widget import show_toast
 from utils.strings import get_string
 from utils.window_blur import WindowBlurService
+from utils.frameless_drag import FramelessDragMixin
+from utils.constants import DIALOG_WIDTH, DIALOG_HEIGHT, PANEL_MIN_WIDTH
 from utils.logger_service import logger
 
-class ShortcutsDialog(QDialog):
+
+class ShortcutsDialog(FramelessDragMixin, QDialog):
     def __init__(self, shortcuts: List[Shortcut], parent=None, global_browser: str = "default") -> None:
         super().__init__(parent)
         self.shortcuts = [Shortcut(s.name, s.url, s.browser, s.name_en, s.category, s.hotkey, s.clicks) for s in shortcuts]
@@ -24,64 +29,45 @@ class ShortcutsDialog(QDialog):
         self.setWindowTitle(get_string("shortcuts_manager_title"))
         if parent is not None and hasattr(parent, "windowIcon"):
             self.setWindowIcon(parent.windowIcon())
-        self.resize(850, 600)
+        self.resize(DIALOG_WIDTH, DIALOG_HEIGHT)
         self.setLayoutDirection(Qt.LayoutDirection.RightToLeft)
-        
+
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.Dialog)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setWindowModality(Qt.WindowModality.ApplicationModal)
 
-        # Enable Glass Effect
         try:
             WindowBlurService.enable_acrylic(self, QColor(255, 255, 255, 5))
         except Exception as e:
             logger.debug(f"Acrylic blur unavailable in dialog: {e}")
 
-        self._old_pos = None
         self._build_ui()
-        self._refresh(0)
-        self._position_window()
 
     def _position_window(self) -> None:
         parent = self.parentWidget()
         if parent:
             parent_geo = parent.geometry()
             margin = 32
-            # Accurate positioning for larger size
-            w, h = 850, 600 
-            target_x = parent_geo.right() - w - margin
-            target_y = parent_geo.bottom() - h - margin
+            target_x = parent_geo.right() - DIALOG_WIDTH - margin
+            target_y = parent_geo.bottom() - DIALOG_HEIGHT - margin
             self.move(target_x, target_y)
-
-    def mousePressEvent(self, event):
-        if event.button() == Qt.MouseButton.LeftButton:
-            self._old_pos = event.globalPosition().toPoint()
-
-    def mouseMoveEvent(self, event):
-        if self._old_pos is not None:
-            delta = event.globalPosition().toPoint() - self._old_pos
-            self.move(self.x() + delta.x(), self.y() + delta.y())
-            self._old_pos = event.globalPosition().toPoint()
-
-    def mouseReleaseEvent(self, event):
-        self._old_pos = None
 
     def _build_ui(self) -> None:
         self.setObjectName("shortcutsDialog")
         root = QVBoxLayout(self)
         root.setContentsMargins(0, 0, 0, 0)
-        
+
         self.main_frame = QFrame()
-        self.main_frame.setObjectName("centralWidget") # Use same styling as MainWindow
+        self.main_frame.setObjectName("centralWidget")
         root.addWidget(self.main_frame)
-        
+
         main_layout = QVBoxLayout(self.main_frame)
         main_layout.setContentsMargins(28, 28, 28, 24)
         main_layout.setSpacing(20)
 
         title_row = QHBoxLayout()
         title_row.setDirection(QHBoxLayout.Direction.RightToLeft)
-        
+
         title = QLabel(get_string("shortcuts_manager_title"))
         title.setObjectName("windowMainTitle")
         title.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
@@ -95,13 +81,12 @@ class ShortcutsDialog(QDialog):
         content.setDirection(QHBoxLayout.Direction.RightToLeft)
         content.setSpacing(14)
 
-        # Right Panel (List)
         right_frame = QFrame()
         right_frame.setObjectName("listPanel")
         right = QVBoxLayout(right_frame)
         right.setContentsMargins(12, 12, 12, 12)
         right.setSpacing(10)
-        
+
         right_title = QLabel(get_string("section_shortcuts"))
         right_title.setObjectName("sectionTitle")
         right_title.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
@@ -155,9 +140,8 @@ class ShortcutsDialog(QDialog):
         io_row.addWidget(export_btn)
         io_row.addStretch(1)
         right.addLayout(io_row)
-        right_frame.setMinimumWidth(280)
+        right_frame.setMinimumWidth(PANEL_MIN_WIDTH)
 
-        # Left Panel (Editor)
         left_frame = QFrame()
         left_frame.setObjectName("editorPanel")
         left = QVBoxLayout(left_frame)
@@ -181,13 +165,13 @@ class ShortcutsDialog(QDialog):
         self.name_input.setLayoutDirection(Qt.LayoutDirection.RightToLeft)
         self.name_input.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
         self.name_input.setMinimumHeight(36)
-        
+
         self.name_en_input = QLineEdit()
         self.name_en_input.setPlaceholderText(get_string("placeholder_name_en"))
         self.name_en_input.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.name_en_input.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
         self.name_en_input.setMinimumHeight(36)
-        
+
         self.url_input = QLineEdit()
         self.url_input.setPlaceholderText(get_string("placeholder_url"))
         self.url_input.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
@@ -284,7 +268,8 @@ class ShortcutsDialog(QDialog):
 
     def _get_current_index(self) -> int:
         item = self.list_widget.currentItem()
-        if not item: return -1
+        if not item:
+            return -1
         idx = item.data(Qt.ItemDataRole.UserRole)
         return idx if isinstance(idx, int) else -1
 
@@ -293,7 +278,6 @@ class ShortcutsDialog(QDialog):
         self._refresh(self._get_current_index())
 
     def _on_rows_moved(self, *_) -> None:
-        # Reordering only works when not filtering
         if self._rebuilding_list or self.filter_text.strip():
             return
         reordered = []
@@ -316,19 +300,22 @@ class ShortcutsDialog(QDialog):
 
     def _delete(self) -> None:
         idx = self._get_current_index()
-        if idx < 0: return
+        if idx < 0:
+            return
         self.shortcuts.pop(idx)
         self._refresh(min(idx, len(self.shortcuts) - 1))
 
     def _apply(self) -> None:
         idx = self._get_current_index()
-        if idx < 0: return
+        if idx < 0:
+            return
         name = self.name_input.text().strip()
         url = self.url_input.text().strip()
-        if not name or not url: return
+        if not name or not url:
+            return
         n1, n2 = SiteCatalog.normalize(name, self.name_en_input.text().strip(), url)
         self.shortcuts[idx] = Shortcut(
-            n1, url, self.shortcuts[idx].browser, n2, 
+            n1, url, self.shortcuts[idx].browser, n2,
             self.category_input.text().strip() or "General",
             self.hotkey_input.text().strip(),
             self.shortcuts[idx].clicks
@@ -344,13 +331,12 @@ class ShortcutsDialog(QDialog):
         )
         if not path:
             return
-        
+
         try:
             shortcuts, _ = ConfigManager.import_shortcuts(Path(path))
             if shortcuts:
                 self.shortcuts = shortcuts
                 self._refresh(0)
-                from ui.widgets.toast_widget import show_toast
                 show_toast(get_string("msg_import_success"), self)
         except Exception as e:
             QMessageBox.critical(self, get_string("shortcuts_manager_title"), get_string("msg_import_error"))
@@ -361,10 +347,9 @@ class ShortcutsDialog(QDialog):
         )
         if not path:
             return
-            
+
         try:
             ConfigManager.export_shortcuts(Path(path), self.shortcuts, self.global_browser)
-            from ui.widgets.toast_widget import show_toast
             show_toast(get_string("msg_export_success"), self)
         except Exception as e:
             QMessageBox.critical(self, get_string("shortcuts_manager_title"), str(e))

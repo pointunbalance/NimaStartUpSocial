@@ -2,7 +2,7 @@ import platform
 import sys
 from pathlib import Path
 
-APP_NAME = "NimaStartupSocial"
+from utils.path_utils import APP_NAME
 
 class AutostartService:
 

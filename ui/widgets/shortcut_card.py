@@ -6,10 +6,9 @@ import qtawesome as qta
 from PyQt6.QtCore import Qt, QSize, QMimeData
 from PyQt6.QtWidgets import QFrame, QVBoxLayout, QLabel, QPushButton
 from PyQt6.QtGui import QDrag, QPixmap
-from logic.catalog_service import Shortcut, SiteCatalog
-
-# Minimum distance (manhattan) before drag starts
-DRAG_THRESHOLD = 10
+from models.shortcut import Shortcut
+from logic.catalog_service import SiteCatalog
+from utils.constants import DRAG_THRESHOLD, CARD_SIZE, ICON_BUTTON_SIZE
 
 
 class ShortcutCard(QFrame):
@@ -21,7 +20,7 @@ class ShortcutCard(QFrame):
 
         self.setObjectName("shortcutCard")
         self.setLayoutDirection(Qt.LayoutDirection.RightToLeft)
-        self.setFixedSize(160, 160)
+        self.setFixedSize(CARD_SIZE, CARD_SIZE)
 
         self._build_ui()
 
@@ -36,7 +35,7 @@ class ShortcutCard(QFrame):
         
         self.icon_btn = QPushButton()
         self.icon_btn.setObjectName("siteCircleOpen")
-        self.icon_btn.setFixedSize(64, 64)
+        self.icon_btn.setFixedSize(ICON_BUTTON_SIZE, ICON_BUTTON_SIZE)
         self.icon_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         self.icon_btn.setAttribute(Qt.WidgetAttribute.WA_TransparentForMouseEvents)
         

@@ -10,7 +10,7 @@ import unittest
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtCore import Qt
 from ui.main_window import MainWindow
-from logic.catalog_service import Shortcut
+from models.shortcut import Shortcut
 
 
 class TestEnterpriseFeatures(unittest.TestCase):
@@ -32,7 +32,7 @@ class TestEnterpriseFeatures(unittest.TestCase):
         self.assertEqual(visible_items[0].name_en, "GitHub")
 
     def test_title_fetcher(self):
-        from ui.main_window import TitleFetcher
+        from logic.title_service import TitleFetcher
         fetcher = TitleFetcher("https://www.google.com")
         
         received_title = []
@@ -58,12 +58,12 @@ class TestEnterpriseFeatures(unittest.TestCase):
 
     def test_global_browser_selection(self):
         window = MainWindow()
-        self.assertEqual(window.global_browser, "default")
+        initial = window.service.global_browser
         
         idx = window.browser_combo.findData("chrome")
         if idx != -1:
             window.browser_combo.setCurrentIndex(idx)
-            self.assertEqual(window.global_browser, "chrome")
+            self.assertEqual(window.service.global_browser, "chrome")
 
 
 if __name__ == "__main__":

@@ -2,7 +2,8 @@ import json
 from pathlib import Path
 from typing import List
 from dataclasses import asdict
-from logic.catalog_service import Shortcut, SiteCatalog
+from models.shortcut import Shortcut
+from logic.catalog_service import SiteCatalog
 
 class ConfigManager:
 

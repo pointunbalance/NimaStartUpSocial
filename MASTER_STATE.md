@@ -1,39 +1,65 @@
 # MASTER STATE LEDGER - NimaStartupSocial
 
-## Current Architecture
+## Current Architecture (v2.0)
 
-The application follows a strict MVC (Model-View-Controller) pattern:
+Clean architecture with separated concerns:
 
-- **Model (`database/`)**: `ConfigManager` handles JSON-based persistence of shortcuts and global settings.
-- **View (`ui/`)**: Built with `PyQt6`, featuring a glassmorphism (Acrylic) interface. Custom widgets are located in `ui/widgets/`.
-- **Controller (`logic/`)**: Services for browser detection (`BrowserService`), autostart (`AutostartService`), catalog management (`CatalogService`), and system tray (`TrayService`).
-- **Utilities (`utils/`)**: Path resolution, logging, string localization (Arabic/English), and window blur effects.
+```
+models/           → Data models (Shortcut dataclass)
+  shortcut.py
+logic/            → Business logic services
+  shortcut_service.py  (CRUD, filter, sort, click tracking)
+  title_service.py     (Async title fetching)
+  catalog_service.py   (Site identification from catalog.json)
+  browser_service.py   (Browser detection)
+  autostart_service.py (OS autostart)
+  tray_service.py      (System tray)
+database/         → Persistence layer
+  config_manager.py    (JSON config load/save/export/import)
+ui/               → PyQt6 glassmorphism interface
+  main_window.py       (Primary window)
+  shortcuts_dialog.py  (Manager dialog)
+  widgets/
+    shortcut_card.py   (Draggable tile)
+    dashboard_widget.py (Clock/date)
+    toast_widget.py    (Notifications)
+utils/            → Shared utilities
+  path_utils.py        (Paths, APP_NAME, APP_VERSION)
+  constants.py         (All magic numbers)
+  frameless_drag.py    (Reusable drag mixin)
+  strings.py           (i18n)
+  window_blur.py       (Acrylic effects)
+  resource_loader.py   (Icons)
+  logger_service.py    (Logging)
+data/             → Static data
+  catalog.json         (22 known sites: domain, names, icons, colors)
+```
 
 ## Features Catalog
 
-### Completed Features (v1.7.3)
+### Completed Features (v2.0)
 
-- [x] **Glassmorphism UI**: Modern Acrylic blur interface with modern typography.
-- [x] **Drag-and-Drop Reordering**: Users can reorder shortcuts on the grid.
-- [x] **Smart Catalog**: Automatic site identification and title fetching for dropped URLs.
-- [x] **System Tray Integration**: Application runs in background with a tray icon.
-- [x] **Multi-Browser Support**: Detects installed browsers (Chrome, Firefox, Edge, etc.) and allows per-shortcut or global selection.
-- [x] **Search & Filtering**: Fast real-time filtering of shortcuts.
-- [x] **Usage Analytics**: Click tracking for shortcuts and a "Popular" category tab.
-- [x] **Error Handling System**: Proactive toast notifications for browser and internet issues.
-- [x] **Comprehensive Testing**: 29 passing tests (26 logic + 3 UI).
-- [x] **Easy Installer**: Inno Setup based installer.
-- [x] **Logical Bug Fixes**: 6 critical logic errors fixed (v1.7.3).
+- [x] **Glassmorphism UI**: Modern Acrylic blur interface.
+- [x] **Drag-and-Drop Reordering**: Grid and list reordering.
+- [x] **Smart Catalog**: Auto-identify sites from `catalog.json`.
+- [x] **System Tray**: Background with tray icon.
+- [x] **Multi-Browser**: Per-shortcut or global browser selection.
+- [x] **Search & Filtering**: Real-time filtering by name/URL.
+- [x] **Usage Analytics**: Click tracking with "Popular" tab.
+- [x] **Error Handling**: Proactive toast notifications.
+- [x] **Comprehensive Testing**: 29 passing tests.
+- [x] **Easy Installer**: Inno Setup based.
+- [x] **Clean Architecture (v2.0)**: Service layer, constants, mixins.
 
 ## UI Map
 
-- **Main Window**: Grid of `ShortcutCard` widgets, search bar, category tabs, dashboard, and footer with global browser selection.
-- **Shortcuts Manager (Dialog)**: Detailed management of shortcuts (Add, Edit, Delete, Import/Export).
-- **Toast Notifications**: Overlays for success/error feedback.
+- **Main Window**: `ShortcutCard` grid, search bar, category tabs, dashboard, footer.
+- **Shortcuts Manager**: Add, Edit, Delete, Import/Export, Drag-reorder list.
+- **Toast Notifications**: Non-blocking overlay feedback.
 
-## Last Known State (v1.7.2)
+## Last Known State (v2.0)
 
-- Version: v1.7.2
+- Version: v2.0
 - Status: **STABLE & VERIFIED**.
-- Verification: All 26 unit/logic tests passed (2026-06-29).
-- Last Change: Code quality improvements, bug fixes, and test suite cleanup.
+- Verification: 29/29 tests passed (2026-06-29).
+- Last Change: Full architecture refactor - ShortcutService, catalog.json, FramelessDragMixin, constants.

@@ -2,7 +2,7 @@ import unittest
 import sys
 from PyQt6.QtWidgets import QApplication
 from ui.shortcuts_dialog import ShortcutsDialog
-from logic.catalog_service import Shortcut
+from models.shortcut import Shortcut
 
 class TestShortcutsDialogLogic(unittest.TestCase):
     @classmethod

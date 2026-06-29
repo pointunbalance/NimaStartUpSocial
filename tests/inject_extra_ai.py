@@ -1,5 +1,5 @@
 from database.config_manager import ConfigManager
-from logic.catalog_service import Shortcut
+from models.shortcut import Shortcut
 
 def inject_extra_ai():
     current, global_browser = ConfigManager.load()

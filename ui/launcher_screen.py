@@ -1,5 +1,3 @@
-import sys
-from pathlib import Path
 from functools import partial
 
 from PyQt6.QtCore import (
@@ -8,16 +6,13 @@ from PyQt6.QtCore import (
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel,
     QPushButton, QScrollArea, QGridLayout, QLineEdit,
-    QGraphicsOpacityEffect, QFrame, QApplication, QTabBar
+    QGraphicsOpacityEffect, QFrame, QTabBar
 )
 from PyQt6.QtGui import QColor
 
 from models.shortcut import Shortcut
 from logic.shortcut_service import ShortcutService
-from logic.title_service import TitleFetcher
 from logic.browser_service import BrowserService
-from logic.catalog_service import SiteCatalog
-from database.config_manager import ConfigManager
 from ui.widgets.shortcut_card import ShortcutCard
 from ui.widgets.toast_widget import show_toast
 from utils.strings import get_string
@@ -26,7 +21,7 @@ from utils.window_blur import WindowBlurService
 from utils.logger_service import logger
 from utils.path_utils import APP_VERSION
 from utils.constants import (
-    GRID_COLS, TILE_SPACING, TILE_STEP,
+    GRID_COLS, TILE_SPACING,
     SEARCH_INPUT_WIDTH, POPULAR_LIMIT,
     ANIM_BASE_DURATION, ANIM_STEP_DURATION
 )
@@ -55,6 +50,7 @@ class LauncherScreen(QWidget):
         self.service = ShortcutService()
         self.browsers = BrowserService.get_installed_browsers()
         self.filter_query = ""
+        self._main_window = None
 
         self._build_ui()
 
@@ -242,8 +238,8 @@ class LauncherScreen(QWidget):
 
     def _open_settings(self):
         from ui.main_window import MainWindow
-        self.main_window = MainWindow()
-        self.main_window.show()
+        self._main_window = MainWindow()
+        self._main_window.show()
         self.close()
 
     def _on_search_changed(self, text):

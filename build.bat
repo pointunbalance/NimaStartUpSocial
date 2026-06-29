@@ -1,5 +1,5 @@
 @echo off
-set VERSION=1.7.1
+set VERSION=2.1
 set APP_NAME=NimaStartUpSocial
 set DIST_DIR=dist
 set INSTALLER_DIR=installer_output

@@ -21,10 +21,14 @@ from utils.window_blur import WindowBlurService
 from utils.logger_service import logger
 from utils.path_utils import APP_VERSION
 from utils.constants import (
-    GRID_COLS, TILE_SPACING,
-    SEARCH_INPUT_WIDTH, POPULAR_LIMIT,
+    TILE_SPACING, POPULAR_LIMIT,
     ANIM_BASE_DURATION, ANIM_STEP_DURATION
 )
+
+LAUNCHER_WIDTH = 340
+LAUNCHER_HEIGHT = 700
+LAUNCHER_COLS = 2
+CARD_SIZE = 140
 
 
 class LauncherScreen(QWidget):
@@ -32,20 +36,20 @@ class LauncherScreen(QWidget):
         super().__init__()
         self.setWindowTitle(f"{get_string('app_name')} - Launcher")
         self.setWindowIcon(get_app_icon())
-        self.resize(900, 650)
-        self.setMinimumSize(700, 500)
+        self.resize(LAUNCHER_WIDTH, LAUNCHER_HEIGHT)
+        self.setMinimumSize(LAUNCHER_WIDTH, 500)
+        self.setMaximumWidth(400)
         self.setLayoutDirection(Qt.LayoutDirection.RightToLeft)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 
         try:
-            WindowBlurService.enable_acrylic(self, QColor(15, 23, 42, 200))
+            WindowBlurService.enable_acrylic(self, QColor(15, 23, 42, 220))
         except Exception as e:
             logger.warning(f"Acrylic blur unavailable: {e}")
 
         self._old_pos = None
         self._anims = []
-        self._fetchers = []
 
         self.service = ShortcutService()
         self.browsers = BrowserService.get_installed_browsers()
@@ -65,39 +69,33 @@ class LauncherScreen(QWidget):
         container.setObjectName("launcherContainer")
         container.setStyleSheet("""
             QWidget#launcherContainer {
-                background-color: rgba(15, 23, 42, 220);
+                background-color: rgba(15, 23, 42, 230);
                 border: 1px solid rgba(255, 255, 255, 20);
-                border-radius: 24px;
+                border-radius: 20px;
             }
         """)
         layout = QVBoxLayout(container)
-        layout.setContentsMargins(32, 24, 32, 20)
-        layout.setSpacing(16)
+        layout.setContentsMargins(16, 16, 16, 12)
+        layout.setSpacing(10)
 
         header = QHBoxLayout()
         header.setDirection(QHBoxLayout.Direction.RightToLeft)
 
-        title_row = QVBoxLayout()
         title = QLabel(get_string("app_name"))
-        title.setStyleSheet("color: #f8fafc; font-size: 28px; font-weight: 800; background: transparent;")
-        title_row.addWidget(title)
-
-        subtitle = QLabel(f"v{APP_VERSION}  |  Smart Shortcut Launcher")
-        subtitle.setStyleSheet("color: #94a3b8; font-size: 13px; font-weight: 500; background: transparent;")
-        title_row.addWidget(subtitle)
-        header.addLayout(title_row)
+        title.setStyleSheet("color: #f8fafc; font-size: 18px; font-weight: 800; background: transparent;")
+        header.addWidget(title)
 
         header.addStretch(1)
 
         close_btn = QPushButton("✕")
-        close_btn.setFixedSize(40, 40)
+        close_btn.setFixedSize(32, 32)
         close_btn.setStyleSheet("""
             QPushButton {
                 background: rgba(255, 255, 255, 10);
                 color: #94a3b8;
                 border: 1px solid rgba(255, 255, 255, 15);
-                border-radius: 20px;
-                font-size: 18px;
+                border-radius: 16px;
+                font-size: 14px;
                 font-weight: 700;
             }
             QPushButton:hover {
@@ -111,20 +109,16 @@ class LauncherScreen(QWidget):
 
         layout.addLayout(header)
 
-        search_row = QHBoxLayout()
-        search_row.setDirection(QHBoxLayout.Direction.RightToLeft)
-
         self.search_input = QLineEdit()
         self.search_input.setPlaceholderText("🔍  " + get_string("placeholder_search"))
-        self.search_input.setFixedWidth(SEARCH_INPUT_WIDTH)
         self.search_input.setStyleSheet("""
             QLineEdit {
                 background: rgba(255, 255, 255, 10);
                 color: #f8fafc;
                 border: 1px solid rgba(255, 255, 255, 20);
-                border-radius: 12px;
-                padding: 10px 16px;
-                font-size: 14px;
+                border-radius: 10px;
+                padding: 8px 12px;
+                font-size: 13px;
             }
             QLineEdit:focus {
                 border: 1px solid rgba(13, 148, 136, 150);
@@ -135,9 +129,7 @@ class LauncherScreen(QWidget):
             }
         """)
         self.search_input.textChanged.connect(self._on_search_changed)
-        search_row.addWidget(self.search_input)
-
-        search_row.addStretch(1)
+        layout.addWidget(self.search_input)
 
         self.category_tabs = QTabBar()
         self.category_tabs.setExpanding(False)
@@ -147,12 +139,12 @@ class LauncherScreen(QWidget):
             QTabBar::tab {
                 background: rgba(255, 255, 255, 8);
                 border: 1px solid rgba(255, 255, 255, 15);
-                border-radius: 10px;
-                padding: 8px 18px;
-                margin: 3px;
+                border-radius: 8px;
+                padding: 6px 10px;
+                margin: 2px;
                 color: #94a3b8;
                 font-weight: 600;
-                font-size: 13px;
+                font-size: 11px;
             }
             QTabBar::tab:hover {
                 background: rgba(255, 255, 255, 18);
@@ -165,9 +157,7 @@ class LauncherScreen(QWidget):
             }
         """)
         self.category_tabs.currentChanged.connect(lambda: self._refresh_grid(animate=False))
-        search_row.addWidget(self.category_tabs)
-
-        layout.addLayout(search_row)
+        layout.addWidget(self.category_tabs)
 
         self.scroll = QScrollArea()
         self.scroll.setWidgetResizable(True)
@@ -178,14 +168,14 @@ class LauncherScreen(QWidget):
             QScrollBar:vertical {
                 border: none;
                 background: rgba(255, 255, 255, 5);
-                width: 6px;
-                margin: 4px;
-                border-radius: 3px;
+                width: 5px;
+                margin: 3px;
+                border-radius: 2px;
             }
             QScrollBar::handle:vertical {
                 background: rgba(148, 163, 184, 100);
-                min-height: 30px;
-                border-radius: 3px;
+                min-height: 25px;
+                border-radius: 2px;
             }
             QScrollBar::handle:vertical:hover {
                 background: rgba(13, 148, 136, 150);
@@ -196,7 +186,7 @@ class LauncherScreen(QWidget):
         self.grid_widget = QWidget()
         self.grid_widget.setStyleSheet("background: transparent;")
         self.grid_layout = QGridLayout(self.grid_widget)
-        self.grid_layout.setContentsMargins(16, 16, 16, 24)
+        self.grid_layout.setContentsMargins(4, 8, 4, 8)
         self.grid_layout.setSpacing(TILE_SPACING)
         self.grid_layout.setAlignment(Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignRight)
 
@@ -206,23 +196,21 @@ class LauncherScreen(QWidget):
         footer = QHBoxLayout()
         footer.setDirection(QHBoxLayout.Direction.RightToLeft)
 
-        count_label = QLabel()
-        count_label.setStyleSheet("color: #64748b; font-size: 12px; background: transparent;")
-        self._count_label = count_label
-        footer.addWidget(count_label)
+        self._count_label = QLabel()
+        self._count_label.setStyleSheet("color: #64748b; font-size: 11px; background: transparent;")
+        footer.addWidget(self._count_label)
 
         footer.addStretch(1)
 
-        settings_btn = QPushButton("⚙  Settings")
+        settings_btn = QPushButton("⚙")
+        settings_btn.setFixedSize(32, 32)
         settings_btn.setStyleSheet("""
             QPushButton {
                 background: rgba(255, 255, 255, 8);
                 color: #94a3b8;
                 border: 1px solid rgba(255, 255, 255, 12);
-                border-radius: 10px;
-                padding: 8px 16px;
-                font-size: 12px;
-                font-weight: 600;
+                border-radius: 16px;
+                font-size: 14px;
             }
             QPushButton:hover {
                 background: rgba(255, 255, 255, 18);
@@ -299,7 +287,8 @@ class LauncherScreen(QWidget):
 
         for i, shortcut in enumerate(visible):
             card = ShortcutCard(shortcut, self._open_shortcut)
-            self.grid_layout.addWidget(card, i // GRID_COLS, i % GRID_COLS)
+            card.setFixedSize(CARD_SIZE, CARD_SIZE)
+            self.grid_layout.addWidget(card, i // LAUNCHER_COLS, i % LAUNCHER_COLS)
             if animate:
                 eff = QGraphicsOpacityEffect(card)
                 card.setGraphicsEffect(eff)

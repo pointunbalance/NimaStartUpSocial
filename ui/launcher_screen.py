@@ -15,7 +15,9 @@ from logic.shortcut_service import ShortcutService
 from logic.browser_service import BrowserService
 from logic.theme_service import ThemeService
 from logic.notification_service import NotificationService
+from logic.backup_service import BackupService
 from ui.widgets.shortcut_card import ShortcutCard
+from ui.widgets.stats_widget import StatsWidget
 from ui.widgets.toast_widget import show_toast
 from utils.strings import get_string
 from utils.resource_loader import get_app_icon
@@ -59,6 +61,7 @@ class LauncherScreen(QWidget):
 
         QTimer.singleShot(200, self._refresh_grid)
         self._update_category_tabs()
+        QTimer.singleShot(1000, BackupService.auto_backup)
 
     def _apply_blur(self):
         theme = ThemeService.get_theme()
@@ -115,6 +118,24 @@ class LauncherScreen(QWidget):
         """)
         notif_btn.clicked.connect(self._show_notifications)
         header.addWidget(notif_btn)
+
+        stats_btn = QPushButton("📊")
+        stats_btn.setFixedSize(32, 32)
+        stats_btn.setStyleSheet(f"""
+            QPushButton {{
+                background: {theme['bg_secondary']};
+                color: {theme['text_secondary']};
+                border: 1px solid {theme['border']};
+                border-radius: 16px;
+                font-size: 14px;
+            }}
+            QPushButton:hover {{
+                background: rgba(255, 255, 255, 18);
+                color: {theme['text_primary']};
+            }}
+        """)
+        stats_btn.clicked.connect(self._toggle_stats)
+        header.addWidget(stats_btn)
 
         close_btn = QPushButton("✕")
         close_btn.setFixedSize(32, 32)
@@ -188,6 +209,10 @@ class LauncherScreen(QWidget):
         """)
         self.category_tabs.currentChanged.connect(lambda: self._refresh_grid(animate=False))
         layout.addWidget(self.category_tabs)
+
+        self.stats_widget = StatsWidget()
+        self.stats_widget.setVisible(False)
+        layout.addWidget(self.stats_widget)
 
         self.scroll = QScrollArea()
         self.scroll.setWidgetResizable(True)
@@ -291,6 +316,12 @@ class LauncherScreen(QWidget):
         self._build_ui()
         QTimer.singleShot(100, self._refresh_grid)
         self._update_category_tabs()
+
+    def _toggle_stats(self):
+        is_visible = self.stats_widget.isVisible()
+        self.stats_widget.setVisible(not is_visible)
+        if not is_visible:
+            self.stats_widget.set_data(self.service.shortcuts)
 
     def _on_search_changed(self, text):
         self.filter_query = text.strip().lower()

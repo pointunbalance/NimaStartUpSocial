@@ -44,8 +44,10 @@ class ShortcutCard(QFrame):
 
         if fa_icon_name == "APP_ICON":
             from utils.resource_loader import get_app_icon
-            self.icon_btn.setIcon(get_app_icon())
-            self.icon_btn.setIconSize(QSize(42, 42))
+            icon = get_app_icon()
+            if icon and not icon.isNull():
+                self.icon_btn.setIcon(icon)
+                self.icon_btn.setIconSize(QSize(42, 42))
             self.icon_btn.setText("")
         elif fa_icon_name:
             icon = qta.icon(fa_icon_name, color='white')

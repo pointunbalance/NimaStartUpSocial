@@ -5,7 +5,7 @@ import subprocess
 import webbrowser
 from functools import lru_cache
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict
 
 class BrowserService:
     PATHS = {

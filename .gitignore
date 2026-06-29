@@ -13,3 +13,14 @@ backups/
 installer_output/
 Source Hub/
 Pict/
+.env
+.venv/
+venv/
+env/
+.idea/
+.vscode/
+*.egg-info/
+*.so
+*.pyd
+.DS_Store
+Thumbs.db

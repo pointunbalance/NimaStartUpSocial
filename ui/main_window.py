@@ -54,7 +54,7 @@ class TitleFetcher(QThread):
             response = requests.get(self.url, headers=headers, timeout=5)
             if response.status_code == 200:
                 soup = BeautifulSoup(response.text, 'html.parser')
-                title = soup.title.string.strip() if soup.title else ""
+                title = (soup.title.string or "").strip() if soup.title else ""
                 if title:
                     self.finished.emit(self.url, title)
         except requests.exceptions.ConnectionError:

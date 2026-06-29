@@ -1,5 +1,5 @@
-from dataclasses import dataclass, asdict
-from typing import Optional, Tuple, List
+from dataclasses import dataclass
+from typing import Optional, Tuple
 from urllib.parse import urlparse
 
 @dataclass

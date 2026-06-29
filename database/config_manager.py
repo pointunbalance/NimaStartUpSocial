@@ -1,6 +1,4 @@
 import json
-import os
-import platform
 from pathlib import Path
 from typing import List
 from dataclasses import asdict
@@ -75,7 +73,10 @@ class ConfigManager:
                 browser = str(item.get("browser", "default")).strip() or "default"
                 category = str(item.get("category", "General")).strip()
                 hotkey = str(item.get("hotkey", "")).strip()
-                clicks = int(item.get("clicks", 0))
+                try:
+                    clicks = int(item.get("clicks", 0))
+                except (ValueError, TypeError):
+                    clicks = 0
                 if not name or not url:
                     continue
                 n1, n2 = SiteCatalog.normalize(name, name_en, url)
@@ -135,7 +136,10 @@ class ConfigManager:
             browser = str(item.get("browser", "default")).strip() or "default"
             category = str(item.get("category", "General")).strip()
             hotkey = str(item.get("hotkey", "")).strip()
-            clicks = int(item.get("clicks", 0))
+            try:
+                clicks = int(item.get("clicks", 0))
+            except (ValueError, TypeError):
+                clicks = 0
             if name and url:
                 n1, n2 = SiteCatalog.normalize(name, name_en, url)
                 result.append(Shortcut(n1, url, browser, n2, category, hotkey, clicks))

@@ -1,18 +1,20 @@
 from functools import partial
 
 from PyQt6.QtCore import (
-    Qt, QTimer, QPropertyAnimation, QEasingCurve
+    Qt, QTimer, QPropertyAnimation, QEasingCurve, QStringListModel
 )
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel,
     QPushButton, QScrollArea, QGridLayout, QLineEdit,
-    QGraphicsOpacityEffect, QFrame, QTabBar
+    QGraphicsOpacityEffect, QFrame, QTabBar, QCompleter
 )
 from PyQt6.QtGui import QColor
 
 from models.shortcut import Shortcut
 from logic.shortcut_service import ShortcutService
 from logic.browser_service import BrowserService
+from logic.theme_service import ThemeService
+from logic.notification_service import NotificationService
 from ui.widgets.shortcut_card import ShortcutCard
 from ui.widgets.toast_widget import show_toast
 from utils.strings import get_string
@@ -42,10 +44,7 @@ class LauncherScreen(QWidget):
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
 
-        try:
-            WindowBlurService.enable_acrylic(self, QColor(15, 23, 42, 220))
-        except Exception as e:
-            logger.warning(f"Acrylic blur unavailable: {e}")
+        self._apply_blur()
 
         self._old_pos = None
         self._anims = []
@@ -54,24 +53,37 @@ class LauncherScreen(QWidget):
         self.browsers = BrowserService.get_installed_browsers()
         self.filter_query = ""
         self._main_window = None
+        self._settings_dialog = None
 
         self._build_ui()
 
         QTimer.singleShot(200, self._refresh_grid)
         self._update_category_tabs()
 
+    def _apply_blur(self):
+        theme = ThemeService.get_theme()
+        try:
+            WindowBlurService.enable_acrylic(self, theme["blur_color"])
+        except Exception as e:
+            logger.warning(f"Acrylic blur unavailable: {e}")
+
     def _build_ui(self):
+        if self.layout():
+            QWidget().setLayout(self.layout())
+
         root = QVBoxLayout(self)
         root.setContentsMargins(0, 0, 0, 0)
 
+        theme = ThemeService.get_theme()
+
         container = QWidget()
         container.setObjectName("launcherContainer")
-        container.setStyleSheet("""
-            QWidget#launcherContainer {
-                background-color: rgba(15, 23, 42, 230);
-                border: 1px solid rgba(255, 255, 255, 20);
+        container.setStyleSheet(f"""
+            QWidget#launcherContainer {{
+                background-color: {theme['bg_primary']};
+                border: 1px solid {theme['border']};
                 border-radius: 20px;
-            }
+            }}
         """)
         layout = QVBoxLayout(container)
         layout.setContentsMargins(16, 16, 16, 12)
@@ -81,27 +93,45 @@ class LauncherScreen(QWidget):
         header.setDirection(QHBoxLayout.Direction.RightToLeft)
 
         title = QLabel(get_string("app_name"))
-        title.setStyleSheet("color: #f8fafc; font-size: 18px; font-weight: 800; background: transparent;")
+        title.setStyleSheet(f"color: {theme['text_primary']}; font-size: 18px; font-weight: 800; background: transparent;")
         header.addWidget(title)
 
         header.addStretch(1)
 
+        notif_btn = QPushButton("🔔")
+        notif_btn.setFixedSize(32, 32)
+        notif_btn.setStyleSheet(f"""
+            QPushButton {{
+                background: {theme['bg_secondary']};
+                color: {theme['text_secondary']};
+                border: 1px solid {theme['border']};
+                border-radius: 16px;
+                font-size: 14px;
+            }}
+            QPushButton:hover {{
+                background: rgba(255, 255, 255, 18);
+                color: {theme['text_primary']};
+            }}
+        """)
+        notif_btn.clicked.connect(self._show_notifications)
+        header.addWidget(notif_btn)
+
         close_btn = QPushButton("✕")
         close_btn.setFixedSize(32, 32)
-        close_btn.setStyleSheet("""
-            QPushButton {
-                background: rgba(255, 255, 255, 10);
-                color: #94a3b8;
-                border: 1px solid rgba(255, 255, 255, 15);
+        close_btn.setStyleSheet(f"""
+            QPushButton {{
+                background: {theme['bg_secondary']};
+                color: {theme['text_secondary']};
+                border: 1px solid {theme['border']};
                 border-radius: 16px;
                 font-size: 14px;
                 font-weight: 700;
-            }
-            QPushButton:hover {
+            }}
+            QPushButton:hover {{
                 background: rgba(239, 68, 68, 60);
-                color: #f8fafc;
+                color: {theme['text_primary']};
                 border-color: rgba(239, 68, 68, 100);
-            }
+            }}
         """)
         close_btn.clicked.connect(self.close)
         header.addWidget(close_btn)
@@ -110,50 +140,51 @@ class LauncherScreen(QWidget):
 
         self.search_input = QLineEdit()
         self.search_input.setPlaceholderText("🔍  " + get_string("placeholder_search"))
-        self.search_input.setStyleSheet("""
-            QLineEdit {
-                background: rgba(255, 255, 255, 10);
-                color: #f8fafc;
-                border: 1px solid rgba(255, 255, 255, 20);
+        self.search_input.setStyleSheet(f"""
+            QLineEdit {{
+                background: {theme['bg_secondary']};
+                color: {theme['text_primary']};
+                border: 1px solid {theme['border']};
                 border-radius: 10px;
                 padding: 8px 12px;
                 font-size: 13px;
-            }
-            QLineEdit:focus {
-                border: 1px solid rgba(13, 148, 136, 150);
-                background: rgba(255, 255, 255, 15);
-            }
-            QLineEdit::placeholder {
-                color: #64748b;
-            }
+            }}
+            QLineEdit:focus {{
+                border: 1px solid {theme['border_hover']};
+                background: {theme['bg_secondary']};
+            }}
+            QLineEdit::placeholder {{
+                color: {theme['text_secondary']};
+            }}
         """)
         self.search_input.textChanged.connect(self._on_search_changed)
+        self._setup_autocomplete()
         layout.addWidget(self.search_input)
 
         self.category_tabs = QTabBar()
         self.category_tabs.setExpanding(False)
         self.category_tabs.setDrawBase(False)
-        self.category_tabs.setStyleSheet("""
-            QTabBar { background: transparent; border: none; }
-            QTabBar::tab {
-                background: rgba(255, 255, 255, 8);
-                border: 1px solid rgba(255, 255, 255, 15);
+        self.category_tabs.setStyleSheet(f"""
+            QTabBar {{ background: transparent; border: none; }}
+            QTabBar::tab {{
+                background: {theme['bg_secondary']};
+                border: 1px solid {theme['border']};
                 border-radius: 8px;
                 padding: 6px 10px;
                 margin: 2px;
-                color: #94a3b8;
+                color: {theme['text_secondary']};
                 font-weight: 600;
                 font-size: 11px;
-            }
-            QTabBar::tab:hover {
+            }}
+            QTabBar::tab:hover {{
                 background: rgba(255, 255, 255, 18);
-                color: #f8fafc;
-            }
-            QTabBar::tab:selected {
-                background: #0d9488;
+                color: {theme['text_primary']};
+            }}
+            QTabBar::tab:selected {{
+                background: {theme['accent']};
                 color: #ffffff;
-                border-color: #0d9488;
-            }
+                border-color: {theme['accent']};
+            }}
         """)
         self.category_tabs.currentChanged.connect(lambda: self._refresh_grid(animate=False))
         layout.addWidget(self.category_tabs)
@@ -196,38 +227,70 @@ class LauncherScreen(QWidget):
         footer.setDirection(QHBoxLayout.Direction.RightToLeft)
 
         self._count_label = QLabel()
-        self._count_label.setStyleSheet("color: #64748b; font-size: 11px; background: transparent;")
+        self._count_label.setStyleSheet(f"color: {theme['text_secondary']}; font-size: 11px; background: transparent;")
         footer.addWidget(self._count_label)
 
         footer.addStretch(1)
 
         settings_btn = QPushButton("⚙")
         settings_btn.setFixedSize(32, 32)
-        settings_btn.setStyleSheet("""
-            QPushButton {
-                background: rgba(255, 255, 255, 8);
-                color: #94a3b8;
-                border: 1px solid rgba(255, 255, 255, 12);
+        settings_btn.setStyleSheet(f"""
+            QPushButton {{
+                background: {theme['bg_secondary']};
+                color: {theme['text_secondary']};
+                border: 1px solid {theme['border']};
                 border-radius: 16px;
                 font-size: 14px;
-            }
-            QPushButton:hover {
+            }}
+            QPushButton:hover {{
                 background: rgba(255, 255, 255, 18);
-                color: #f8fafc;
-            }
+                color: {theme['text_primary']};
+            }}
         """)
         settings_btn.clicked.connect(self._open_settings)
         footer.addWidget(settings_btn)
 
         layout.addLayout(footer)
-
         root.addWidget(container)
 
+    def _setup_autocomplete(self):
+        names = [s.name for s in self.service.shortcuts]
+        names.extend([s.name_en for s in self.service.shortcuts if s.name_en])
+        completer = QCompleter(list(set(names)), self)
+        completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
+        completer.setFilterMode(Qt.MatchFlag.MatchContains)
+        completer.setStyleSheet("""
+            QCompleter {
+                background: rgba(15, 23, 42, 240);
+                color: #f8fafc;
+                border: 1px solid rgba(255, 255, 255, 20);
+                border-radius: 10px;
+            }
+        """)
+        self.search_input.setCompleter(completer)
+
+    def _show_notifications(self):
+        notifications = NotificationService.get_all()
+        if not notifications:
+            show_toast("No notifications", self)
+            return
+        unread = NotificationService.get_unread_count()
+        show_toast(f"{unread} unread notifications", self)
+        NotificationService.mark_all_read()
+
     def _open_settings(self):
-        from ui.main_window import MainWindow
-        self._main_window = MainWindow()
-        self._main_window.show()
-        self.close()
+        from ui.settings_dialog import SettingsDialog
+        self._settings_dialog = SettingsDialog(self)
+        if self._settings_dialog.exec():
+            theme_name = self._settings_dialog.get_selected_theme()
+            ThemeService.set_theme(theme_name)
+            self._apply_blur()
+            self._rebuild_ui()
+
+    def _rebuild_ui(self):
+        self._build_ui()
+        QTimer.singleShot(100, self._refresh_grid)
+        self._update_category_tabs()
 
     def _on_search_changed(self, text):
         self.filter_query = text.strip().lower()
@@ -311,11 +374,13 @@ class LauncherScreen(QWidget):
 
     def _open_shortcut(self, shortcut: Shortcut):
         self.service.increment_clicks(shortcut)
+        NotificationService.add("shortcut_opened", shortcut.name, "info")
         browser_key = shortcut.browser
         if browser_key == "default":
             browser_key = self.service.global_browser
         success = BrowserService.open_url(shortcut.url, browser_key, self.browsers)
         if not success:
+            NotificationService.notify_browser_error()
             show_toast(get_string("msg_browser_error"), self)
 
     def mousePressEvent(self, event):

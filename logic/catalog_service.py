@@ -64,7 +64,7 @@ class SiteCatalog:
             if name == en:
                 name = ar
             if not name_en:
-                name_en = en if name == ar else name
+                name_en = en
         if not name_en:
             name_en = name
         return name, name_en

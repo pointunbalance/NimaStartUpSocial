@@ -316,7 +316,7 @@ class MainWindow(QMainWindow):
         if info:
             name, name_en = info[1], info[2]
         else:
-            host = urlparse(url).netloc.replace("www.", "")
+            host = SiteCatalog.get_host(url)
             name = name_en = host or url[:30]
         
         if any(SiteCatalog.get_host(s.url) == SiteCatalog.get_host(url) for s in self.shortcuts):
@@ -344,7 +344,7 @@ class MainWindow(QMainWindow):
     def _on_title_fetched(self, url, title):
         for s in self.shortcuts:
             if s.url == url:
-                host = urlparse(url).netloc.replace("www.", "")
+                host = SiteCatalog.get_host(url)
                 if s.name == host:
                     s.name = title[:25] + ("..." if len(title) > 25 else "")
                     ConfigManager.save(self.shortcuts, self.global_browser)
@@ -470,10 +470,10 @@ class MainWindow(QMainWindow):
         widget.setGraphicsEffect(None)
 
     def _open_shortcut(self, shortcut: Shortcut) -> None:
-        # Skip click tracking for developer shortcut (transient object)
         if shortcut.url != DEV_URL:
             shortcut.clicks += 1
             ConfigManager.save(self.shortcuts, self.global_browser)
+            self._refresh_grid(animate=False)
         
         browser_key = shortcut.browser
         if browser_key == "default":

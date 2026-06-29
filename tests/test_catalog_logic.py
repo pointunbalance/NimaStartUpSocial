@@ -15,10 +15,10 @@ class TestCatalogLogic(unittest.TestCase):
         self.assertEqual(n1, "جيت هب")
         self.assertEqual(n2, "GitHub")
 
-        # If name is custom, it should be preserved. name_en becomes the name if empty.
+        # If name is custom, it should be preserved. name_en becomes catalog English name.
         n1, n2 = SiteCatalog.normalize("MyGit", "", url)
         self.assertEqual(n1, "MyGit")
-        self.assertEqual(n2, "MyGit")
+        self.assertEqual(n2, "GitHub")
 
     def test_shortcut_creation(self):
         s = Shortcut("Name", "https://url.com", "default", "NameEN", "Cat")

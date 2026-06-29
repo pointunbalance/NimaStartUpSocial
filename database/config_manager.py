@@ -66,16 +66,16 @@ class ConfigManager:
             result: List[Shortcut] = []
             changed = False
             for item in raw.get("shortcuts", []):
-                name = str(item.get("name", "")).strip()
-                name_en = str(item.get("name_en", "")).strip()
-                url = str(item.get("url", "")).strip()
-                browser = str(item.get("browser", "default")).strip() or "default"
-                category = str(item.get("category", "General")).strip()
-                hotkey = str(item.get("hotkey", "")).strip()
                 try:
+                    name = str(item.get("name", "")).strip()
+                    name_en = str(item.get("name_en", "")).strip()
+                    url = str(item.get("url", "")).strip()
+                    browser = str(item.get("browser", "default")).strip() or "default"
+                    category = str(item.get("category", "General")).strip()
+                    hotkey = str(item.get("hotkey", "")).strip()
                     clicks = int(item.get("clicks", 0))
-                except (ValueError, TypeError):
-                    clicks = 0
+                except (ValueError, TypeError, AttributeError):
+                    continue
                 if not name or not url:
                     continue
                 n1, n2 = SiteCatalog.normalize(name, name_en, url)
@@ -87,6 +87,8 @@ class ConfigManager:
                 if changed:
                     ConfigManager.save(result, global_browser)
                 return result, global_browser
+            if global_browser != "default":
+                return [], global_browser
         except Exception as e:
             from utils.logger_service import logger
             logger.warning(f"Failed to load config, falling back to defaults: {e}")

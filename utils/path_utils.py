@@ -3,8 +3,10 @@ import platform
 import sys
 from pathlib import Path
 
+APP_NAME = "NimaStartupSocial"
+APP_VERSION = "1.7.2"
+
 class PathUtils:
-    APP_NAME = "NimaStartupSocial"
 
     @staticmethod
     def get_app_dir() -> Path:
@@ -29,7 +31,7 @@ class PathUtils:
         else:
             base = Path.home() / ".config"
         
-        data_dir = base / PathUtils.APP_NAME
+        data_dir = base / APP_NAME
         data_dir.mkdir(parents=True, exist_ok=True)
         return data_dir
 

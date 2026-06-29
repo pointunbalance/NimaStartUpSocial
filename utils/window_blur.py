@@ -49,34 +49,3 @@ class WindowBlurService:
             ctypes.POINTER(WINDOWCOMPOSITIONATTRIBDATA)
         ]
         ctypes.windll.user32.SetWindowCompositionAttribute(hwnd, ctypes.byref(data))
-
-    @staticmethod
-    def enable_mica(window: QWidget, dark: bool = False):
-        """
-        Enables the Mica effect on Windows 11.
-        """
-        hwnd = window.winId()
-        
-        # DWMWA_MICA_EFFECT = 1029
-        # DWMWA_SYSTEMBACKDROP_TYPE = 38
-        
-        # For Windows 11 22H2 and later
-        DWMWA_SYSTEMBACKDROP_TYPE = 38
-        DWMSBT_MAINWINDOW = 2  # Mica
-        
-        try:
-            ctypes.windll.dwmapi.DwmSetWindowAttribute(
-                hwnd, 
-                DWMWA_SYSTEMBACKDROP_TYPE, 
-                ctypes.byref(ctypes.c_int(DWMSBT_MAINWINDOW)), 
-                ctypes.sizeof(ctypes.c_int)
-            )
-        except Exception:
-            # Fallback for older Win11 versions
-            DWMWA_MICA_EFFECT = 1029
-            ctypes.windll.dwmapi.DwmSetWindowAttribute(
-                hwnd, 
-                DWMWA_MICA_EFFECT, 
-                ctypes.byref(ctypes.c_int(1)), 
-                ctypes.sizeof(ctypes.c_int)
-            )

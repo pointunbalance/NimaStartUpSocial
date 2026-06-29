@@ -31,6 +31,7 @@ from utils.strings import get_string
 from utils.resource_loader import get_app_icon
 from utils.window_blur import WindowBlurService
 from utils.logger_service import logger
+from utils.path_utils import APP_VERSION
 
 # Grid constants
 GRID_COLS = 5
@@ -65,7 +66,7 @@ class TitleFetcher(QThread):
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
-        self.setWindowTitle(f"{get_string('app_name')} v1.7.1")
+        self.setWindowTitle(f"{get_string('app_name')} v{APP_VERSION}")
         self.setWindowIcon(get_app_icon())
         self.resize(1100, 750)
         self.setMinimumSize(800, 600)

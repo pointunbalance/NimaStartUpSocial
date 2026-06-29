@@ -5,7 +5,6 @@ from dataclasses import asdict
 from logic.catalog_service import Shortcut, SiteCatalog
 
 class ConfigManager:
-    APP_NAME = "NimaStartupSocial"
 
     @staticmethod
     def get_data_dir() -> Path:

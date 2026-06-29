@@ -2,8 +2,9 @@ import platform
 import sys
 from pathlib import Path
 
+APP_NAME = "NimaStartupSocial"
+
 class AutostartService:
-    APP_NAME = "NimaStartupSocial"
 
     @staticmethod
     def _get_command() -> str:
@@ -39,9 +40,11 @@ class AutostartService:
             import winreg
             key_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
             with winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path, 0, winreg.KEY_READ) as key:
-                winreg.QueryValueEx(key, AutostartService.APP_NAME)
+                winreg.QueryValueEx(key, APP_NAME)
                 return True
-        except Exception:
+        except Exception as e:
+            from utils.logger_service import logger
+            logger.debug(f"Autostart check failed: {e}")
             return False
 
     @staticmethod
@@ -51,19 +54,21 @@ class AutostartService:
             key_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
             with winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path, 0, winreg.KEY_ALL_ACCESS) as key:
                 if enabled:
-                    winreg.SetValueEx(key, AutostartService.APP_NAME, 0, winreg.REG_SZ, AutostartService._get_command())
+                    winreg.SetValueEx(key, APP_NAME, 0, winreg.REG_SZ, AutostartService._get_command())
                 else:
                     try:
-                        winreg.DeleteValue(key, AutostartService.APP_NAME)
+                        winreg.DeleteValue(key, APP_NAME)
                     except FileNotFoundError:
                         pass
             return True
-        except Exception:
+        except Exception as e:
+            from utils.logger_service import logger
+            logger.warning(f"Failed to set Windows autostart: {e}")
             return False
 
     @staticmethod
     def _get_linux_desktop_file() -> Path:
-        return Path.home() / ".config" / "autostart" / f"{AutostartService.APP_NAME}.desktop"
+        return Path.home() / ".config" / "autostart" / f"{APP_NAME}.desktop"
 
     @staticmethod
     def _set_linux(enabled: bool) -> bool:
@@ -74,7 +79,7 @@ class AutostartService:
                 content = "\n".join([
                     "[Desktop Entry]",
                     "Type=Application",
-                    f"Name={AutostartService.APP_NAME}",
+                    f"Name={APP_NAME}",
                     f"Exec={AutostartService._get_command()}",
                     "X-GNOME-Autostart-enabled=true"
                 ])
@@ -82,12 +87,14 @@ class AutostartService:
             elif path.exists():
                 path.unlink()
             return True
-        except OSError:
+        except OSError as e:
+            from utils.logger_service import logger
+            logger.warning(f"Failed to set Linux autostart: {e}")
             return False
 
     @staticmethod
     def _get_macos_plist_file() -> Path:
-        return Path.home() / "Library" / "LaunchAgents" / f"{AutostartService.APP_NAME}.plist"
+        return Path.home() / "Library" / "LaunchAgents" / f"{APP_NAME}.plist"
 
     @staticmethod
     def _set_macos(enabled: bool) -> bool:
@@ -99,7 +106,7 @@ class AutostartService:
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>Label</key><string>{AutostartService.APP_NAME}</string>
+    <key>Label</key><string>{APP_NAME}</string>
     <key>ProgramArguments</key>
     <array>
         <string>/bin/sh</string>
@@ -113,5 +120,7 @@ class AutostartService:
             elif path.exists():
                 path.unlink()
             return True
-        except OSError:
+        except OSError as e:
+            from utils.logger_service import logger
+            logger.warning(f"Failed to set macOS autostart: {e}")
             return False

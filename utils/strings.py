@@ -4,7 +4,6 @@ Centralized strings for NimaStartupSocial (Arabic and English).
 
 STRINGS = {
     "app_name": "NimaStartupSocial",
-    "main_window_title": "NimaStartupSocial - اختصاراتي",
     "shortcuts_manager_title": "إدارة الاختصارات",
     "section_shortcuts": "الاختصارات",
     "section_details": "تفاصيل الاختصار",
@@ -24,14 +23,6 @@ STRINGS = {
     "btn_cancel": "إلغاء",
     "btn_open": "فتح",
     "checkbox_autostart": "تشغيل تلقائي مع النظام",
-    "msg_warning": "تحذير",
-    "msg_error": "خطأ",
-    "msg_success": "نجاح",
-    "msg_invalid_index": "يرجى اختيار اختصار أولاً.",
-    "msg_name_required": "الاسم مطلوب.",
-    "msg_url_required": "الرابط مطلوب.",
-    "msg_invalid_url": "الرابط يجب أن يبدأ بـ http:// أو https://",
-    "msg_saved_success": "تم الحفظ بنجاح!",
     "browser_default": "متصفح النظام الافتراضي",
     "browser_chrome": "جوجل كروم",
     "browser_firefox": "فايرفوكس",
@@ -39,8 +30,6 @@ STRINGS = {
     "browser_brave": "بريف",
     "browser_opera": "أوبرا",
     "browser_safari": "سفاري",
-    "drag_drop_hint": "اسحب لإعادة ترتيب الاختصارات.",
-    "filter_drag_disabled": "يجب إلغاء البحث أولاً لإعادة ترتيب العناصر.",
     "label_global_browser": ("المتصفح المفضل للفتح:", "Preferred browser to open:"),
     "cat_all": ("الكل", "All"),
     "cat_general": ("عام", "General"),
@@ -62,7 +51,6 @@ STRINGS = {
     "msg_site_exists": ("هذا الموقع موجود بالفعل!", "This site already exists!"),
     "msg_added": ("تمت إضافة:", "Added:"),
     "msg_browser_error": ("فشل فتح المتصفح! تأكد من تثبيته.", "Failed to open browser! Make sure it is installed."),
-    "msg_internet_error": ("لا يوجد اتصال بالإنترنت لتحديث العناوين.", "No internet connection to fetch titles."),
     "tray_quit": ("إغلاق نهائي", "Quit"),
 }
 

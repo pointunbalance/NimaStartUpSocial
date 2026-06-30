@@ -1,6 +1,6 @@
 # MASTER STATE LEDGER - NimaStartupSocial
 
-## Current Architecture (v2.4.0)
+## Current Architecture (v2.4.1)
 
 Clean architecture with separated concerns:
 
@@ -45,7 +45,7 @@ data/             → Static data
 
 ## Features Catalog
 
-### Completed Features (v2.4.0)
+### Completed Features (v2.4.1)
 
 #### Phase 1: UI/UX
 - [x] **Smooth Hover Animations** - QPropertyAnimation on ShortcutCard
@@ -88,9 +88,9 @@ data/             → Static data
 - **Statistics Widget**: Pie chart of usage
 - **Toast Notifications**: Non-blocking overlay feedback
 
-## Last Known State (v2.4.0)
+## Last Known State (v2.4.1)
 
-- Version: v2.4.0
+- Version: v2.4.1
 - Status: **STABLE & VERIFIED**.
 - Verification: 29/29 tests passed (2026-06-29).
-- Last Change: Full feature implementation - themes, stats, backup, SQLite, favicon.
+- Last Bugfix: Fixed access violation when loading app icon at startup.

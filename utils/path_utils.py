@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 APP_NAME = "NimaStartupSocial"
-APP_VERSION = "2.4.0"
+APP_VERSION = "2.4.1"
 
 class PathUtils:
 
